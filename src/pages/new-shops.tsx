@@ -4,7 +4,7 @@ import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import ShopList from '@/components/shop/shop-list';
+// import ShopList from '@/components/shop/shop-list';
 import { useState } from 'react';
 import Search from '@/components/common/search';
 import { adminOnly } from '@/utils/auth-utils';
@@ -48,13 +48,13 @@ export default function NewShopPage() {
           <Search onSearch={handleSearch} />
         </div>
       </Card>
-      <ShopList
+      {/* <ShopList
         shops={shops}
         paginatorInfo={paginatorInfo}
         onPagination={handlePagination}
         onOrder={setOrder}
         onSort={setColumn}
-      />
+      /> */}
     </>
   );
 }

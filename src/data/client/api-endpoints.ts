@@ -36,7 +36,7 @@ export const API_ENDPOINTS = {
   PROFILE_UPDATE: 'profile-update',
   LOGOUT: 'base/logout',
   ME: 'users/me',
-  TOKEN: 'base/access_token/',
+  TOKEN: 'base/access_token',
   TOKEN_v2: 'jwt/create/',
   BLOCK_USER: 'users/block-user',
   UNBLOCK_USER: 'users/unblock-user',

@@ -33,10 +33,10 @@ export const useCoursesQuery = (options: Partial<CourseQueryOptions>) => {
   };
 };
 
-export const useCourseQuery = ({ slug, language }: GetParams) => {
+export const useCourseQuery = ({ slug }: GetParams) => {
   const { data, error, isLoading } = useQuery<Response<Course>, Error>(
-    [API_ENDPOINTS.CATEGORIES, { slug, language }],
-    () => courseClient.get({ slug, language }),
+    [API_ENDPOINTS.COURSES, { slug }],
+    () => courseClient.get({ slug }),
   );
 
   return {

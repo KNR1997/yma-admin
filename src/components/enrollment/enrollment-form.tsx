@@ -129,8 +129,6 @@ const CreateOrUpdateEnrollmentForm = ({ initialValues }: IProps) => {
       student_id: values.student.id,
     };
 
-    console.log('input: ', input)
-
     try {
       if (!initialValues) {
         await createEnrollment(input);

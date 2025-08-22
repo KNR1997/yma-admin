@@ -602,7 +602,7 @@ export interface User {
   addresses: Address[];
   orders?: OrderPaginator;
   email_verified: boolean;
-  role: Role[];
+  role: Role;
 }
 
 export interface Payment {
@@ -633,6 +633,7 @@ export interface CreateUserinput {
   nic?: string;
   is_active?: boolean;
   is_superuser?: boolean;
+  role_id: number;
 }
 
 export interface UpdateUser {
@@ -646,7 +647,7 @@ export interface UpdateUser {
   password: string;
   is_active: boolean;
   is_superuser: boolean;
-  role_ids: any[];
+  role_id: number;
 }
 
 export interface Profile {

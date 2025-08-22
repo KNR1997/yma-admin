@@ -26,7 +26,8 @@ type FormValues = {
   username: string;
   email: string;
   password: string;
-  roles: Role[];
+  // roles: Role[];
+  role: Role;
 };
 
 const defaultValues = {
@@ -52,13 +53,13 @@ function SelectRoles({
     <div className="mb-5">
       <Label>Roles</Label>
       <SelectInput
-        name="roles"
+        name="role"
         control={control}
         getOptionLabel={(option: any) => option.name}
         getOptionValue={(option: any) => option.id}
         options={roles!}
         isLoading={loading}
-        isMulti
+        // isMulti
       />
       <ValidationError message={t(errors.roles?.message)} />
     </div>
@@ -100,8 +101,9 @@ const CreateOrUpdateUserForm = ({ initialValues }: IProps) => {
       password: values.password,
       is_active: true,
       is_superuser: false,
-      role_ids: values.roles.map((role) => role.id),
+      role_id: values.role.id,
     };
+    console.log('input: ', input)
     const handleFieldErrors = (error: any) => {
       try {
         const fieldErrors = error?.response?.data?.msg?.data;

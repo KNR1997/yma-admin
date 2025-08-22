@@ -81,7 +81,7 @@ const UserList = ({
     //   onHeaderCell: () => onHeaderClick('id'),
     //   render: (id: number) => `#${t('table:table-item-id')}: ${id}`,
     // },
-        {
+    {
       title: (
         <TitleWithSort
           title={t('table:table-item-title')}
@@ -98,14 +98,9 @@ const UserList = ({
       width: 250,
       ellipsis: true,
       onHeaderCell: () => onHeaderClick('first_name'),
-      render: (
-        first_name: string,
-        record: User,
-      ) => (
+      render: (first_name: string, record: User) => (
         <div className="flex items-center">
-          <Avatar
-            name={record?.username!}
-          />
+          <Avatar name={record?.username!} />
           <div className="flex flex-col whitespace-nowrap font-medium ms-2">
             {first_name} {record?.last_name}
             <span className="text-[13px] font-normal text-gray-500/80">
@@ -123,19 +118,17 @@ const UserList = ({
       width: 150,
     },
     {
-      title: 'Roles',
-      dataIndex: 'roles',
-      key: 'roles',
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
       align: 'center',
       width: 300,
-      render: (roles: any) => {
+      render: (role: any) => {
         return (
           <div className="flex flex-wrap gap-1.5 whitespace-nowrap">
-            {roles?.map(({ name, index }: { name: string; index: number }) => (
-              <span key={index} className="rounded bg-gray-200/50 px-2.5 py-1">
-                {name}
-              </span>
-            ))}
+            <span className="rounded bg-gray-200/50 px-2.5 py-1">
+              {role?.name}
+            </span>
           </div>
         );
       },
@@ -270,15 +263,15 @@ const UserList = ({
         return (
           <>
             {/* {data?.id != id && ( */}
-              <ActionButtons
-                id={id}
-                editUrl={Routes.user.editWithoutLang(id)}
-                userStatus={true}
-                isUserActive={is_active}
-                resetUserPassword={true}
-                // showAddWalletPoints={true}
-                // showMakeAdminButton={true}
-              />
+            <ActionButtons
+              id={id}
+              editUrl={Routes.user.editWithoutLang(id)}
+              userStatus={true}
+              isUserActive={is_active}
+              resetUserPassword={true}
+              // showAddWalletPoints={true}
+              // showMakeAdminButton={true}
+            />
             {/* )} */}
           </>
         );

@@ -327,6 +327,11 @@ export interface Subject {
   code: string;
 }
 
+export interface Analytics {
+  active_courses: number
+  active_students: number
+}
+
 export interface Role {
   id: number;
   name: string;

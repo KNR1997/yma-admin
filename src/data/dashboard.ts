@@ -1,11 +1,24 @@
-import { Product, ProductQueryOptions } from '@/types';
+import { Analytics, Product, ProductQueryOptions, Response } from '@/types';
 import { useQuery } from 'react-query';
 import { API_ENDPOINTS } from './client/api-endpoints';
 import { dashboardClient } from '@/data/client/dashboard';
 import { productClient } from '@/data/client/product';
 
-export function useAnalyticsQuery() {
-  return useQuery([API_ENDPOINTS.ANALYTICS], dashboardClient.analytics);
+export const useAnalyticsQuery = () => {
+  const { data, error, isLoading } = useQuery<Response<Analytics>, Error>(
+    [API_ENDPOINTS.ANALYTICS],
+    () => dashboardClient.analytics(),
+    {
+      staleTime: 1000 * 60 * 60, // ✅ optional: cache for 1 hour
+    }
+  );
+
+  return {
+    data: data?.data,
+    error,
+    isLoading,
+  };
+  // return useQuery([API_ENDPOINTS.ANALYTICS], dashboardClient.analytics);
 }
 
 export function usePopularProductsQuery(options: Partial<ProductQueryOptions>) {

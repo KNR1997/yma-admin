@@ -334,7 +334,7 @@ export interface Role {
 }
 
 export interface Api {
-  id: string;
+  id: number;
   method: ApiMethodType;
   summary: string;
   tags: string;
@@ -648,6 +648,12 @@ export interface UpdateUser {
   is_active: boolean;
   is_superuser: boolean;
   role_id: number;
+}
+
+export interface UpdateMe {
+  full_name: string;
+  first_name: string;
+  last_name: string;
 }
 
 export interface Profile {
@@ -2272,8 +2278,8 @@ export interface RolesAuthorizedResponse {
 }
 
 export interface UpdateRolesAuthorizeInput {
-  roleId: number;
-  api_infos: [{ method: ApiMethodType; path: string }];
+  role_id: number;
+  api_ids: number[];
   menu_ids: number[];
 }
 

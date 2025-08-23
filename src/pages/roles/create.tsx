@@ -2,6 +2,7 @@ import Layout from '@/components/layouts/admin';
 import CreateOrUpdateRoleForm from '@/components/roles/role-form';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function CreateRolePage() {
   const { t } = useTranslation();
@@ -16,6 +17,9 @@ export default function CreateRolePage() {
     </>
   );
 }
+CreateRolePage.authenticate = {
+  permissions: adminOnly,
+};
 CreateRolePage.Layout = Layout;
 
 export const getStaticProps = async ({ locale }: any) => ({

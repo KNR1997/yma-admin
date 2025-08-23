@@ -2,6 +2,7 @@ import Layout from '@/components/layouts/admin';
 import CreateOrUpdateSubjectForm from '@/components/subject/subject-form';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function CreateSubjectPage() {
   const { t } = useTranslation();
@@ -16,6 +17,9 @@ export default function CreateSubjectPage() {
     </>
   );
 }
+CreateSubjectPage.authenticate = {
+  permissions: adminOnly,
+};
 CreateSubjectPage.Layout = Layout;
 
 export const getStaticProps = async ({ locale }: any) => ({

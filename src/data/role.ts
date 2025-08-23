@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { Routes } from '@/config/routes';
 import { API_ENDPOINTS } from './client/api-endpoints';
 import {
+  Api,
   GetParams,
   Response,
   Role,
@@ -101,7 +102,7 @@ export const useRolesQuery = (options: Partial<RoleQueryOptions>) => {
 
 export const useRoleAuthorizedQuery = ({ id }: GetParams) => {
   const { data, error, isLoading } = useQuery<
-    Response<RolesAuthorizedResponse>,
+    Response<Api[]>,
     Error
   >([`${API_ENDPOINTS.ROLES}/authorized`, { id }], () =>
     roleClient.authorized({ id }),

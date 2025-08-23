@@ -1,8 +1,8 @@
 import CreateOrUpdateApiForm from '@/components/api/api-form';
 import Layout from '@/components/layouts/admin';
-import CreateOrUpdateRoleForm from '@/components/roles/role-form';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function CreateApiPage() {
   const { t } = useTranslation();
@@ -17,6 +17,9 @@ export default function CreateApiPage() {
     </>
   );
 }
+CreateApiPage.authenticate = {
+  permissions: adminOnly,
+};
 CreateApiPage.Layout = Layout;
 
 export const getStaticProps = async ({ locale }: any) => ({

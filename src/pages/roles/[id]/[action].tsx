@@ -6,6 +6,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function UpdateRolePage() {
   const { query, locale } = useRouter();
@@ -26,6 +27,9 @@ export default function UpdateRolePage() {
     </>
   );
 }
+UpdateRolePage.authenticate = {
+  permissions: adminOnly,
+};
 UpdateRolePage.Layout = Layout;
 
 export const getServerSideProps = async ({ locale }: any) => ({

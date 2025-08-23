@@ -140,8 +140,10 @@ const CreateOrUpdateEnrollmentForm = ({ initialValues }: IProps) => {
       }
     } catch (error: any) {
       const err = error.response?.data as ErrorResponse;
+      console.log('err: ', err)
       if (err?.validation) {
         const serverErrors = getErrorMessage(error?.response?.data);
+        console.log('serverErrors: ', serverErrors)
         Object.keys(serverErrors?.validation).forEach((field: any) => {
           setError(field, {
             type: 'manual',

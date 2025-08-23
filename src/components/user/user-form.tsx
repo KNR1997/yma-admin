@@ -103,7 +103,6 @@ const CreateOrUpdateUserForm = ({ initialValues }: IProps) => {
       is_superuser: false,
       role_id: values.role.id,
     };
-    console.log('input: ', input)
     const handleFieldErrors = (error: any) => {
       try {
         const fieldErrors = error?.response?.data?.msg?.data;

@@ -47,7 +47,7 @@ const CreateOrUpdateRoleForm = ({ initialValues }: IProps) => {
   const router = useRouter();
   const { alignLeft } = useIsRTL();
   const [selectedRowKeys, setSelectedRowKeys] = useState<
-    { id: string; method: ApiMethodType; path: string }[]
+    { id: number; method: ApiMethodType; path: string }[]
   >([]);
 
   const { mutate: createRole, isLoading: creating } = useCreateRoleMutation();
@@ -60,16 +60,16 @@ const CreateOrUpdateRoleForm = ({ initialValues }: IProps) => {
   const { mutate: updateRoleAuthorize } = useUpdateRoleAuthorizedMutation();
 
   useEffect(() => {
-    if (roleAuthorizedData?.apis) {
+    if (roleAuthorizedData) {
       setSelectedRowKeys(
-        roleAuthorizedData?.apis.map((p) => ({
+        roleAuthorizedData?.map((p: Api) => ({
           id: p.id,
           method: p.method,
           path: p.path,
         })),
       );
     }
-  }, [roleAuthorizedData?.apis]);
+  }, [roleAuthorizedData]);
 
   const {
     watch,
@@ -115,8 +115,6 @@ const CreateOrUpdateRoleForm = ({ initialValues }: IProps) => {
       // api_infos: selectedRowKeys,
     };
 
-    console.log('input: ', input);
-
     try {
       if (!initialValues) {
         createRole(input);
@@ -126,17 +124,8 @@ const CreateOrUpdateRoleForm = ({ initialValues }: IProps) => {
           id: initialValues.id,
         });
         updateRoleAuthorize({
-          roleId: initialValues.id,
-          api_infos: selectedRowKeys.map((d) => ({
-            method: d.method,
-            path: d.path,
-          })),
-          // api_infos: [
-          //   {
-          //     method: 'GET',
-          //     path: '/api/v1/apis',
-          //   },
-          // ],
+          role_id: initialValues.id,
+          api_ids: selectedRowKeys.map((d) => d.id),
           menu_ids: [],
         });
       }
@@ -183,7 +172,7 @@ const CreateOrUpdateRoleForm = ({ initialValues }: IProps) => {
       render: (_: any, record: any) => (
         <Checkbox
           name={`checkbox-${record.id}`}
-          checked={selectedRowKeys.some((item: any) => item.id === record.id)}
+          checked={selectedRowKeys.some((item: any) => item.id == record.id)}
           onChange={() => onCheckboxChange(record)}
         />
       ),

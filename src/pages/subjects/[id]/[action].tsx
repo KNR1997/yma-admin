@@ -6,6 +6,7 @@ import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
 import { useSubjectQuery } from '@/data/subject';
 import CreateOrUpdateSubjectForm from '@/components/subject/subject-form';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function UpdateSubjectPage() {
   const { query } = useRouter();
@@ -26,6 +27,9 @@ export default function UpdateSubjectPage() {
     </>
   );
 }
+UpdateSubjectPage.authenticate = {
+  permissions: adminOnly,
+};
 UpdateSubjectPage.Layout = Layout;
 
 export const getServerSideProps = async ({ locale }: any) => ({

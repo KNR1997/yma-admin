@@ -2,6 +2,7 @@ import CreateOrUpdateEnrollmentForm from '@/components/enrollment/enrollment-for
 import Layout from '@/components/layouts/admin';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function CreateEnrollmentPage() {
   const { t } = useTranslation();
@@ -16,6 +17,9 @@ export default function CreateEnrollmentPage() {
     </>
   );
 }
+CreateEnrollmentPage.authenticate = {
+  permissions: adminOnly,
+};
 CreateEnrollmentPage.Layout = Layout;
 
 export const getStaticProps = async ({ locale }: any) => ({

@@ -2,6 +2,7 @@ import CreateOrUpdateCoursePaymentForm from '@/components/coursePayment/course-p
 import Layout from '@/components/layouts/admin';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function CreateCoursePaymentPage() {
   const { t } = useTranslation();
@@ -16,6 +17,9 @@ export default function CreateCoursePaymentPage() {
     </>
   );
 }
+CreateCoursePaymentPage.authenticate = {
+  permissions: adminOnly,
+};
 CreateCoursePaymentPage.Layout = Layout;
 
 export const getStaticProps = async ({ locale }: any) => ({

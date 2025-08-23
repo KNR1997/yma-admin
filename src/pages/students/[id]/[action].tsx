@@ -6,6 +6,7 @@ import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
 import { useStudentQuery } from '@/data/student';
 import CreateOrUpdateStudentForm from '@/components/student/student-form';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function UpdateStudentPage() {
   const { query } = useRouter();
@@ -28,6 +29,9 @@ export default function UpdateStudentPage() {
     </>
   );
 }
+UpdateStudentPage.authenticate = {
+  permissions: adminOnly,
+};
 UpdateStudentPage.Layout = Layout;
 
 export const getServerSideProps = async ({ locale }: any) => ({

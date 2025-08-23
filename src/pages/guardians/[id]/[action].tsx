@@ -6,6 +6,7 @@ import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
 import { useGuardianQuery } from '@/data/guardian';
 import CreateOrUpdateGuardianForm from '@/components/guardian/guardian-form';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function UpdateGuardianPage() {
   const { query } = useRouter();
@@ -26,6 +27,9 @@ export default function UpdateGuardianPage() {
     </>
   );
 }
+UpdateGuardianPage.authenticate = {
+  permissions: adminOnly,
+};
 UpdateGuardianPage.Layout = Layout;
 
 export const getServerSideProps = async ({ locale }: any) => ({

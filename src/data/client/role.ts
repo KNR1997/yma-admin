@@ -1,4 +1,5 @@
 import {
+  Api,
   CreateRoleInput,
   GetParams,
   QueryOptions,
@@ -24,16 +25,16 @@ export const roleClient = {
     });
   },
   authorized: ({ id }: GetParams) => {
-    return HttpClient.get<Response<RolesAuthorizedResponse>>(
+    return HttpClient.get<Response<Api[]>>(
       `${API_ENDPOINTS.ROLES}/${id}/authorized`,
     );
   },
   authorizedUpdate: ({
-    roleId,
+    role_id,
     ...input
-  }: Partial<UpdateRolesAuthorizeInput> & { roleId: string }) => {
+  }: Partial<UpdateRolesAuthorizeInput> & { role_id: number }) => {
     return HttpClient.post<Response<RolesAuthorizedResponse>>(
-      `${API_ENDPOINTS.ROLES}/${roleId}/authorized`,
+      `${API_ENDPOINTS.ROLES}/${role_id}/authorized`,
       input,
     );
   },

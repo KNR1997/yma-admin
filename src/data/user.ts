@@ -66,6 +66,10 @@ export const useMeQuery = () => {
     userClient.me,
     {
       retry: false,
+      staleTime: 1000 * 60 * 60, // ✅ optional: cache for 1 hour
+      keepPreviousData: true, // ✅ prevents flicker when changing language
+      // staleTime: Infinity,
+      // cacheTime: Infinity,
 
       onSuccess: () => {
         if (router.pathname === Routes.verifyLicense) {
@@ -103,7 +107,22 @@ export const useMeQuery = () => {
     isLoading,
   };
 };
-
+export const useUpdateMeMutation = () => {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  return useMutation(userClient.updateMe, {
+    onSuccess: async () => {
+      // await router.push(Routes.user.list);
+      toast.success(t('common:successfully-updated'));
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      queryClient.invalidateQueries(API_ENDPOINTS.ME);
+      // queryClient.invalidateQueries(API_ENDPOINTS.USERS);
+    },
+  });
+};
 export function useLogin() {
   return useMutation(userClient.login);
 }
@@ -174,13 +193,13 @@ export const useUpdateUserMutation = () => {
   const queryClient = useQueryClient();
   return useMutation(userClient.update, {
     onSuccess: async () => {
-      await router.push(Routes.user.list);
+      // await router.push(Routes.user.list);
       toast.success(t('common:successfully-updated'));
     },
     // Always refetch after error or success:
     onSettled: () => {
-      queryClient.invalidateQueries(API_ENDPOINTS.ME);
-      queryClient.invalidateQueries(API_ENDPOINTS.USERS);
+      // queryClient.invalidateQueries(API_ENDPOINTS.ME);
+      // queryClient.invalidateQueries(API_ENDPOINTS.USERS);
     },
   });
 };

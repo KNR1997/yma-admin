@@ -2,6 +2,7 @@ import CreateOrUpdateGuardianForm from '@/components/guardian/guardian-form';
 import Layout from '@/components/layouts/admin';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function CreateGuardianPage() {
   const { t } = useTranslation();
@@ -16,6 +17,9 @@ export default function CreateGuardianPage() {
     </>
   );
 }
+CreateGuardianPage.authenticate = {
+  permissions: adminOnly,
+};
 CreateGuardianPage.Layout = Layout;
 
 export const getStaticProps = async ({ locale }: any) => ({

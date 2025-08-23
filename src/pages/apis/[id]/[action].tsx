@@ -1,6 +1,4 @@
 import Layout from '@/components/layouts/admin';
-import CreateOrUpdateRoleForm from '@/components/roles/role-form';
-import { useRoleQuery } from '@/data/role';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
@@ -8,6 +6,7 @@ import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
 import { useApiQuery } from '@/data/api';
 import CreateOrUpdateApiForm from '@/components/api/api-form';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function UpdateApiPage() {
   const { query, locale } = useRouter();
@@ -28,6 +27,9 @@ export default function UpdateApiPage() {
     </>
   );
 }
+UpdateApiPage.authenticate = {
+  permissions: adminOnly,
+};
 UpdateApiPage.Layout = Layout;
 
 export const getServerSideProps = async ({ locale }: any) => ({

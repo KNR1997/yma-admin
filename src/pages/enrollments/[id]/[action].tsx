@@ -6,6 +6,7 @@ import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
 import CreateOrUpdateEnrollmentForm from '@/components/enrollment/enrollment-form';
 import { useEnrollmentQuery } from '@/data/enrollment';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function UpdateHallPage() {
   const { query } = useRouter();
@@ -26,6 +27,9 @@ export default function UpdateHallPage() {
     </>
   );
 }
+UpdateHallPage.authenticate = {
+  permissions: adminOnly,
+};
 UpdateHallPage.Layout = Layout;
 
 export const getServerSideProps = async ({ locale }: any) => ({

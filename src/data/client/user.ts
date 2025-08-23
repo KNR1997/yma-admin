@@ -20,6 +20,7 @@ import {
   LicenseAdditionalData,
   CreateUserinput,
   Response,
+  UpdateMe,
 } from '@/types';
 import { API_ENDPOINTS } from './api-endpoints';
 import { HttpClient } from './http-client';
@@ -27,6 +28,9 @@ import { HttpClient } from './http-client';
 export const userClient = {
   me: () => {
     return HttpClient.get<Response<User>>(API_ENDPOINTS.ME);
+  },
+  updateMe: ({ input }: { input: UpdateMe }) => {
+    return HttpClient.put<User>(API_ENDPOINTS.ME, input);
   },
   login: (variables: LoginInput) => {
     return HttpClient.post<AuthResponse>(API_ENDPOINTS.TOKEN, variables);

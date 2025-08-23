@@ -2,6 +2,7 @@ import CreateOrUpdateEventForm from '@/components/event/event-form';
 import Layout from '@/components/layouts/admin';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { adminOnly } from '@/utils/auth-utils';
 
 export default function CreateEventPage() {
   const { t } = useTranslation();
@@ -14,6 +15,9 @@ export default function CreateEventPage() {
     </>
   );
 }
+CreateEventPage.authenticate = {
+  permissions: adminOnly,
+};
 CreateEventPage.Layout = Layout;
 
 export const getStaticProps = async ({ locale }: any) => ({

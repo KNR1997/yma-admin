@@ -11,10 +11,8 @@ import PageHeading from '@/components/common/page-heading';
 import Search from '@/components/common/search';
 import LinkButton from '@/components/ui/link-button';
 import { Routes } from '@/config/routes';
-import { useHallsQuery } from '@/data/hall';
-import HallList from '@/components/hall/hall-list';
-import { useAdmissionPaymentsQuery, useCoursePaymentsQuery } from '@/data/payment';
-import AdmissionPaymentList from '@/components/admission/admission-payment-list';
+import { useCoursePaymentsQuery } from '@/data/payment';
+import CoursePaymentList from '@/components/coursePayment/course-payment-list';
 
 export default function CoursePayments() {
   const { t } = useTranslation();
@@ -23,7 +21,7 @@ export default function CoursePayments() {
   const [orderBy, setOrder] = useState('created_at');
   const [sortedBy, setColumn] = useState<SortOrder>(SortOrder.Desc);
 
-  const { payments, paginatorInfo, loading, error } = useCoursePaymentsQuery({
+  const { enrollmentPayments, paginatorInfo, loading, error } = useCoursePaymentsQuery({
     limit: 20,
     page,
     // name: searchTerm,
@@ -64,8 +62,8 @@ export default function CoursePayments() {
           </LinkButton>
         </div>
       </Card>
-      <AdmissionPaymentList
-        payments={payments}
+      <CoursePaymentList
+        enrollmentPayments={enrollmentPayments}
         paginatorInfo={paginatorInfo}
         onPagination={handlePagination}
         onOrder={setOrder}

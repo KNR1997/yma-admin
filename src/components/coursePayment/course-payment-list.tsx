@@ -1,6 +1,11 @@
 import Pagination from '@/components/ui/pagination';
 import { Table } from '@/components/ui/table';
-import { Hall, MappedPaginatorInfo, Payment, SortOrder } from '@/types';
+import {
+  EnrollmentPayment,
+  MappedPaginatorInfo,
+  Payment,
+  SortOrder,
+} from '@/types';
 import { useTranslation } from 'next-i18next';
 import { useIsRTL } from '@/utils/locals';
 import { useState } from 'react';
@@ -9,16 +14,18 @@ import { NoDataFound } from '@/components/icons/no-data-found';
 import { Routes } from '@/config/routes';
 import { useRouter } from 'next/router';
 import LanguageSwitcher from '@/components/ui/lang-action/action';
+import { formatDate } from '@/utils/format-date';
+import { getMonthName } from '@/utils/get-month-name';
 
 type IProps = {
-  payments: Payment[] | undefined;
+  enrollmentPayments: EnrollmentPayment[] | undefined;
   paginatorInfo: MappedPaginatorInfo | null;
   onPagination: (current: number) => void;
   onSort: (current: any) => void;
   onOrder: (current: string) => void;
 };
-const AdmissionPaymentList = ({
-  payments,
+const CoursePaymentList = ({
+  enrollmentPayments,
   paginatorInfo,
   onPagination,
   onSort,
@@ -56,7 +63,7 @@ const AdmissionPaymentList = ({
     {
       title: (
         <TitleWithSort
-          title={t('table:table-item-title')}
+          title="Student No."
           ascending={
             sortingObj.sort === SortOrder.Asc && sortingObj.column === 'id'
           }
@@ -64,25 +71,51 @@ const AdmissionPaymentList = ({
         />
       ),
       className: 'cursor-pointer',
-      dataIndex: 'payer_name',
-      key: 'payer_name',
+      dataIndex: 'enrollment',
+      key: 'enrollment',
       align: alignLeft,
       width: 250,
       ellipsis: true,
       onHeaderCell: () => onHeaderClick('name'),
+      render: (enrollment: any, record: EnrollmentPayment) => {
+        return <h2>{record?.enrollment?.student?.student_number}</h2>;
+      },
+    },
+    {
+      title: 'Course Name',
+      dataIndex: 'course',
+      key: 'course',
+      align: 'center',
+      render: (enrollment: any, record: EnrollmentPayment) => {
+        return <h2>{record?.enrollment?.course?.name}</h2>;
+      },
+    },
+    {
+      title: 'Payment Month',
+      dataIndex: 'payment_month',
+      key: 'payment_month',
+      align: 'center',
+      render: (payment_month: number) =>
+        getMonthName(payment_month, router.locale),
     },
     {
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
       align: 'center',
+      render: function Render(value: number, record: EnrollmentPayment) {
+        return (
+          <span className="whitespace-nowrap">Rs. {value.toFixed(2)}</span>
+        );
+      },
     },
-    // {
-    //   title: 'Grade',
-    //   dataIndex: 'grade',
-    //   key: 'grade',
-    //   align: 'center',
-    // },
+    {
+      title: 'Payment Date',
+      dataIndex: 'payment_date',
+      key: 'payment_date',
+      align: 'center',
+      render: (payment_date: any) => formatDate(payment_date),
+    },
     {
       title: t('table:table-item-actions'),
       dataIndex: 'id',
@@ -115,7 +148,7 @@ const AdmissionPaymentList = ({
               <p className="text-[13px]">{t('table:empty-table-sorry-text')}</p>
             </div>
           )}
-          data={payments}
+          data={enrollmentPayments}
           rowKey="id"
           scroll={{ x: 1000 }}
         />
@@ -135,4 +168,4 @@ const AdmissionPaymentList = ({
   );
 };
 
-export default AdmissionPaymentList;
+export default CoursePaymentList;

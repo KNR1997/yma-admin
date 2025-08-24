@@ -114,7 +114,7 @@ const CreateOrUpdateAdmissionPaymentForm = ({ initialValues }: IProps) => {
       <div className="my-5 flex flex-wrap sm:my-8">
         <Description
           title={t('form:form-title-information')}
-          details={t('form:course-form-info-help-text')}
+          details={t('form:admission-form-info-help-text')}
           className="w-full px-0 pb-5 sm:w-4/12 sm:py-8 sm:pe-4 md:w-1/3 md:pe-5"
         />
 
@@ -141,7 +141,7 @@ const CreateOrUpdateAdmissionPaymentForm = ({ initialValues }: IProps) => {
             loading={creating || updating}
             disabled={creating || updating}
           >
-            {initialValues ? 'Update Hall' : 'Add Hall'}
+            {initialValues ? 'Update Hall' : 'Pay Admission'}
           </Button>
         </div>
       </StickyFooterPanel>

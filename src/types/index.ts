@@ -615,6 +615,12 @@ export interface Payment {
   amount: number;
 }
 
+export interface EnrollmentPayment {
+  enrollment: Enrollment;
+  payer_name: string;
+  amount: number;
+}
+
 export interface Domain {
   id: String;
   url: String;
@@ -2295,6 +2301,8 @@ export interface WithdrawPaginator extends PaginatorInfo<Withdraw> {}
 export interface UserPaginator extends PaginatorInfo<User> {}
 
 export interface PaymentPaginator extends PaginatorInfo<Payment> {}
+
+export interface EnrollmentPaymentPaginator extends PaginatorInfo<EnrollmentPayment> {}
 
 export interface LicensedDomainPaginator extends PaginatorInfo<Domain> {}
 

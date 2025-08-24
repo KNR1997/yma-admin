@@ -3,6 +3,7 @@ import {
   AdmissionPaymentQueryOptions,
   PaymentPaginator,
   CreateCoursePaymentInput,
+  EnrollmentPaymentPaginator,
 } from '@/types';
 import { API_ENDPOINTS } from './api-endpoints';
 import { HttpClient } from './http-client';
@@ -36,7 +37,7 @@ export const paymentClient = {
   fetchCoursePayments: ({
     ...params
   }: Partial<AdmissionPaymentQueryOptions>) => {
-    return HttpClient.get<PaymentPaginator>(
+    return HttpClient.get<EnrollmentPaymentPaginator>(
       `${API_ENDPOINTS.PAYMENTS}/students/course`,
       {
         searchJoin: 'and',

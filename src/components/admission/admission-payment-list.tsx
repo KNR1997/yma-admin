@@ -9,6 +9,7 @@ import { NoDataFound } from '@/components/icons/no-data-found';
 import { Routes } from '@/config/routes';
 import { useRouter } from 'next/router';
 import LanguageSwitcher from '@/components/ui/lang-action/action';
+import { formatDate } from '@/utils/format-date';
 
 type IProps = {
   payments: Payment[] | undefined;
@@ -77,12 +78,13 @@ const AdmissionPaymentList = ({
       key: 'amount',
       align: 'center',
     },
-    // {
-    //   title: 'Grade',
-    //   dataIndex: 'grade',
-    //   key: 'grade',
-    //   align: 'center',
-    // },
+    {
+      title: 'Payment Date',
+      dataIndex: 'payment_date',
+      key: 'payment_date',
+      align: 'center',
+      render: (payment_date: any) => formatDate(payment_date),
+    },
     {
       title: t('table:table-item-actions'),
       dataIndex: 'id',

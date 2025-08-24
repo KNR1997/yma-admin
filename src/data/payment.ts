@@ -12,6 +12,7 @@ import {
   Response,
   PaymentPaginator,
   AdmissionPaymentQueryOptions,
+  EnrollmentPaymentPaginator,
 } from '@/types';
 import { mapPaginatorData } from '@/utils/data-mappers';
 import { Config } from '@/config';
@@ -92,7 +93,7 @@ export const useAdmissionPaymentsQuery = (params: Partial<AdmissionPaymentQueryO
 };
 
 export const useCoursePaymentsQuery = (params: Partial<AdmissionPaymentQueryOptions>) => {
-  const { data, isLoading, error } = useQuery<PaymentPaginator, Error>(
+  const { data, isLoading, error } = useQuery<EnrollmentPaymentPaginator, Error>(
     [`${API_ENDPOINTS.PAYMENTS}/students/course`, params],
     () => paymentClient.fetchCoursePayments(params),
     {
@@ -101,7 +102,7 @@ export const useCoursePaymentsQuery = (params: Partial<AdmissionPaymentQueryOpti
   );
 
   return {
-    payments: data?.data ?? [],
+    enrollmentPayments: data?.data ?? [],
     paginatorInfo: mapPaginatorData(data as any),
     loading: isLoading,
     error,

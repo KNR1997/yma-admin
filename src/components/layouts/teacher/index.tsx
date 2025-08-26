@@ -8,7 +8,7 @@ import { useAtom } from 'jotai';
 import cn from 'classnames';
 import { useWindowSize } from '@/utils/use-window-size';
 import { RESPONSIVE_WIDTH } from '@/utils/constants';
-import { adminOnly, getAuthCredentials, hasAccess } from '@/utils/auth-utils';
+import { teacherOnly, getAuthCredentials, hasAccess } from '@/utils/auth-utils';
 import Scrollbar from '@/components/ui/scrollbar';
 import {
   checkIsMaintenanceModeComing,
@@ -16,7 +16,7 @@ import {
 } from '@/utils/constants';
 import SideBarMenu from './menu';
 
-const StudentLayout: React.FC<{ children?: React.ReactNode }> = ({
+const TeacherLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   const [miniSidebar, _] = useAtom(miniSidebarInitialValue);
@@ -25,9 +25,11 @@ const StudentLayout: React.FC<{ children?: React.ReactNode }> = ({
   const dir = locale === 'ar' || locale === 'he' ? 'rtl' : 'ltr';
   const { width } = useWindowSize();
   const { permissions } = getAuthCredentials();
-  let permission = hasAccess(adminOnly, permissions);
+  let permission = hasAccess(teacherOnly, permissions);
   const [underMaintenance] = useAtom(checkIsMaintenanceModeComing);
   const [underMaintenanceStart] = useAtom(checkIsMaintenanceModeStart);
+
+  console.log('permission: ', permission)
 
   return (
     <div
@@ -87,4 +89,4 @@ const StudentLayout: React.FC<{ children?: React.ReactNode }> = ({
     </div>
   );
 };
-export default StudentLayout;
+export default TeacherLayout;

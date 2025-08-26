@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import LanguageSwitcher from '@/components/ui/lang-action/action';
 import Badge from '@/components/ui/badge/badge';
 import Avatar from '@/components/common/avatar';
+import { getMonthName } from '@/utils/get-month-name';
 
 type IProps = {
   enrollments: Enrollment[] | undefined;
@@ -102,6 +103,14 @@ const EnrollmentList = ({
           {record.course?.name}
         </span>
       ),
+    },
+    {
+      title: 'Last Payment Month',
+      dataIndex: 'last_payment_month',
+      key: 'last_payment_month',
+      align: 'center',
+      render: (last_payment_month: number) =>
+        getMonthName(last_payment_month, router.locale),
     },
     {
       title: t('table:table-item-status'),

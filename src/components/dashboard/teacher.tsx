@@ -241,7 +241,7 @@ const OwnerShopLayout = () => {
   );
 };
 
-const StudentDashboard = () => {
+const TeacherDashboard = () => {
   const { permissions } = getAuthCredentials();
   let permission = hasAccess(adminOnly, permissions);
 
@@ -249,4 +249,4 @@ const StudentDashboard = () => {
   return <OwnerShopLayout />;
 };
 
-export default StudentDashboard;
+export default TeacherDashboard;

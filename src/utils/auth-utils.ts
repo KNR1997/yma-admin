@@ -9,15 +9,17 @@ import {
   STUDENT,
   SUPER_ADMIN,
   TOKEN,
+  TEACHER
 } from './constants';
 
-export const allowedRoles = [SUPER_ADMIN, STORE_OWNER, STAFF, STUDENT];
+export const allowedRoles = [SUPER_ADMIN, STORE_OWNER, STAFF, STUDENT, TEACHER];
 export const adminAndOwnerOnly = [SUPER_ADMIN, STORE_OWNER];
 export const adminOwnerAndStaffOnly = [SUPER_ADMIN, STORE_OWNER, STAFF, STUDENT];
 export const adminOnly = [SUPER_ADMIN];
 export const ownerOnly = [STORE_OWNER];
 export const ownerAndStaffOnly = [STORE_OWNER, STAFF];
 export const studentOnly = [STUDENT];
+export const teacherOnly = [TEACHER];
 
 export function setAuthCredentials(token: string, permissions: any, role: any) {
   Cookie.set(AUTH_CRED, JSON.stringify({ token, permissions, role }));

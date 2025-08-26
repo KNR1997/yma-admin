@@ -4,6 +4,7 @@ import {
   adminOwnerAndStaffOnly,
   ownerAndStaffOnly,
   studentOnly,
+  teacherOnly,
 } from '@/utils/auth-utils';
 import { Routes } from '@/config/routes';
 
@@ -1048,6 +1049,21 @@ export const siteSettings = {
         label: 'sidebar-nav-item-my-courses',
         icon: 'DiaryIcon',
         permissions: studentOnly,
+      },
+    ],
+
+    teacherDashboard: [
+      {
+        href: Routes.dashboard,
+        label: 'sidebar-nav-item-dashboard',
+        icon: 'DashboardIcon',
+        permissions: teacherOnly,
+      },
+      {
+        href: Routes.teacherCourses,
+        label: 'sidebar-nav-item-my-courses',
+        icon: 'DiaryIcon',
+        permissions: teacherOnly,
       },
     ]
   },

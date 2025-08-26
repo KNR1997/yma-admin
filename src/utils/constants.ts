@@ -4,6 +4,7 @@ export const SUPER_ADMIN = 'super_admin';
 export const STORE_OWNER = 'store_owner';
 export const STAFF = 'staff';
 export const STUDENT = 'student';
+export const TEACHER = 'teacher';
 export const TOKEN = 'token';
 export const PERMISSIONS = 'permissions';
 export const AUTH_CRED = 'AUTH_CRED';

@@ -179,6 +179,7 @@ export const Routes = {
     ...routesFactory('/flash-sale'),
   },
   myCourses: '/student/courses',
+  teacherCourses: '/teacher/courses',
   ownerDashboardNotice: '/notice',
   ownerDashboardMessage: '/owner-message',
   ownerDashboardMyShop: '/my-shop',

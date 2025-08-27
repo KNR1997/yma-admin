@@ -20,6 +20,7 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import { useNotifyLogAllReadMutation } from '@/data/notify-logs';
 import { Config } from '@/config';
+import { useNotificationsQuery } from '@/data/notification';
 
 type IProps = { user: any };
 
@@ -33,7 +34,7 @@ const StoreNoticeBar = ({ user }: IProps) => {
   const { readStoreNotice } = useStoreNoticeRead();
   const [noticeOpen, setNoticeOpen] = useState(false);
   const { locale } = useRouter();
-  const { storeNotices, error: errorNotice } = useStoreNoticesQuery({
+  const { notifications, error: errorNotice } = useNotificationsQuery({
     language: locale,
     limit: 5,
     orderBy: 'updated_at',
@@ -51,7 +52,7 @@ const StoreNoticeBar = ({ user }: IProps) => {
     });
   };
 
-  const activeStatus = storeNotices.filter((item) => {
+  const activeStatus = notifications.filter((item) => {
     return item.is_read === false;
   });
 
@@ -123,8 +124,8 @@ const StoreNoticeBar = ({ user }: IProps) => {
                 </div>
 
                 <div>
-                  {storeNotices.length ? (
-                    storeNotices?.map((item: any) => {
+                  {notifications.length ? (
+                    notifications?.map((item: any) => {
                       const activeUser = permissions?.includes('super_admin')
                         ? Routes?.storeNotice?.details(item?.id)
                         : '/shops/' + Routes?.storeNotice?.details(item?.id);
@@ -172,7 +173,7 @@ const StoreNoticeBar = ({ user }: IProps) => {
                   )}
                 </div>
 
-                {storeNotices.length ? (
+                {notifications.length ? (
                   <Link
                     href={
                       permission

@@ -20,6 +20,7 @@ type Props = {
   id: string;
   editModalView?: string | any;
   deleteModalView?: string | any;
+  enableEditMode?: boolean;
   editUrl?: string;
   previewUrl?: string;
   enablePreviewMode?: boolean;
@@ -48,6 +49,7 @@ const ActionButtons = ({
   id,
   editModalView,
   deleteModalView,
+  enableEditMode = true,
   editUrl,
   previewUrl,
   enablePreviewMode = false,
@@ -296,7 +298,7 @@ const ActionButtons = ({
           )}
         </>
       )}
-      {editUrl && (
+      {(enableEditMode && editUrl) && (
         <Link
           href={editUrl}
           className="text-base transition duration-200 hover:text-heading"

@@ -79,6 +79,7 @@ export const API_ENDPOINTS = {
   MESSAGE: '/messages/conversations',
   MESSAGE_SEEN: '/messages/seen',
   ADMIN_LIST: '/admin/list',
+  NOTIFICATIONS: '/notifications',
   STORE_NOTICES: 'store-notices',
   STORE_NOTICES_IS_READ: 'store-notices/read',
   STORE_NOTICE_GET_STORE_NOTICE_TYPE: 'store-notices/getStoreNoticeType',

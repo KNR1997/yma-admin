@@ -1045,7 +1045,7 @@ export const siteSettings = {
         permissions: studentOnly,
       },
       {
-        href: Routes.myCourses,
+        href: Routes.studentCourses.list,
         label: 'sidebar-nav-item-my-courses',
         icon: 'DiaryIcon',
         permissions: studentOnly,

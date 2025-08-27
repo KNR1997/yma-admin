@@ -14,6 +14,7 @@ export type LanguageSwitcherProps = {
   deleteModalView?: string | any;
   routes: any;
   className?: string | undefined;
+  enableEditMode?: boolean;
   enablePreviewMode?: boolean;
   isShop?: boolean;
   shopSlug?: string;
@@ -27,6 +28,7 @@ export default function LanguageSwitcher({
   deleteModalView,
   routes,
   className,
+  enableEditMode,
   enablePreviewMode,
   isShop,
   shopSlug,
@@ -58,12 +60,14 @@ export default function LanguageSwitcher({
       ) : (
         <ActionButtons
           id={record?.id}
+          enableEditMode={enableEditMode}
           editUrl={routes.editWithoutLang(slug, shop)}
           previewUrl={preview}
           enablePreviewMode={enablePreviewMode}
           deleteModalView={deleteModalView}
           couponApproveButton={couponApproveButton}
           isCouponApprove={isCouponApprove}
+          detailsUrl={routes.details(slug)}
         />
       )}
     </>

@@ -20,6 +20,7 @@ export const ownerOnly = [STORE_OWNER];
 export const ownerAndStaffOnly = [STORE_OWNER, STAFF];
 export const studentOnly = [STUDENT];
 export const teacherOnly = [TEACHER];
+export const adminAndTeacherAndStudent = [SUPER_ADMIN, TEACHER, STUDENT]
 
 export function setAuthCredentials(token: string, permissions: any, role: any) {
   Cookie.set(AUTH_CRED, JSON.stringify({ token, permissions, role }));

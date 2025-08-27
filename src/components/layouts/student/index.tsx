@@ -1,4 +1,5 @@
 import Navbar from '@/components/layouts/navigation/top-navbar';
+import NavbarNew from '@/components/layouts/navigation/top-navbar-new';
 import { miniSidebarInitialValue } from '@/utils/constants';
 import Footer from '@/components/layouts/footer/footer-bar';
 import OwnerInformation from '@/components/user/user-details';
@@ -8,7 +9,7 @@ import { useAtom } from 'jotai';
 import cn from 'classnames';
 import { useWindowSize } from '@/utils/use-window-size';
 import { RESPONSIVE_WIDTH } from '@/utils/constants';
-import { adminOnly, getAuthCredentials, hasAccess } from '@/utils/auth-utils';
+import { studentOnly, getAuthCredentials, hasAccess } from '@/utils/auth-utils';
 import Scrollbar from '@/components/ui/scrollbar';
 import {
   checkIsMaintenanceModeComing,
@@ -25,7 +26,7 @@ const StudentLayout: React.FC<{ children?: React.ReactNode }> = ({
   const dir = locale === 'ar' || locale === 'he' ? 'rtl' : 'ltr';
   const { width } = useWindowSize();
   const { permissions } = getAuthCredentials();
-  let permission = hasAccess(adminOnly, permissions);
+  let permission = hasAccess(studentOnly, permissions);
   const [underMaintenance] = useAtom(checkIsMaintenanceModeComing);
   const [underMaintenanceStart] = useAtom(checkIsMaintenanceModeStart);
 
@@ -34,7 +35,7 @@ const StudentLayout: React.FC<{ children?: React.ReactNode }> = ({
       className="flex flex-col min-h-screen transition-colors duration-150 bg-gray-100"
       dir={dir}
     >
-      <Navbar />
+      <NavbarNew />
       <MobileNavigation>
         <OwnerInformation />
         {!permission ? <SideBarMenu /> : null}

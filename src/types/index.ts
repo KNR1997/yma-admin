@@ -127,6 +127,10 @@ export enum RefundPolicyStatus {
   Approved = 'approved',
   Pending = 'pending',
 }
+export enum NotifyType {
+  MESSAGE = "MESSAGE",
+  COURSE_NOTICE = "COURSE_NOTICE"
+}
 
 export interface GoogleMapLocation {
   lat?: number | string;
@@ -744,7 +748,39 @@ export interface StoreNotice {
   creator?: any;
 }
 
+export interface CourseNotice {
+  id: string;
+  translated_languages: string[];
+  priority: StoreNoticePriorityType;
+  notice: string;
+  description?: string;
+  effective_from?: string;
+  expired_at: string;
+  type?: string;
+  is_read?: boolean;
+  shops?: Shop[];
+  users?: User[];
+  received_by?: string;
+  created_by: string;
+  expire_at: string;
+  created_at: string;
+  creator_role: string;
+  updated_at: string;
+  deleted_at?: string;
+  creator?: any;
+}
+
 export interface StoreNoticeInput {
+  priority: string;
+  notice: string;
+  description?: string;
+  effective_from?: string;
+  expired_at: string;
+  type: string;
+  received_by?: string[];
+}
+
+export interface CourseNoticeInput {
   priority: string;
   notice: string;
   description?: string;
@@ -891,6 +927,8 @@ export interface NotifyLogs {
   notify_receiver_type: string;
   is_read: boolean;
   notify_text: string;
+  notify_tracker: string;
+  created_at: string;
 }
 
 export interface ReadAllNotifyLogs {

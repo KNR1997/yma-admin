@@ -1,4 +1,5 @@
 import {
+  Response,
   StoreNotice,
   StoreNoticeInput,
   StoreNoticePaginator,
@@ -25,7 +26,7 @@ export const notificationClient = {
       }),
     }),
   get({ id, language }: { id: string; language: string }) {
-    return HttpClient.get<StoreNotice>(`${API_ENDPOINTS.NOTIFICATIONS}/${id}`, {
+    return HttpClient.get<Response<StoreNotice>>(`${API_ENDPOINTS.NOTIFICATIONS}/${id}`, {
       language,
     });
   },
@@ -39,6 +40,9 @@ export const notificationClient = {
       ...params,
       search: HttpClient.formatSearchParams({ notice, shops, 'users.id': params['users.id'] }),
     });
+  },
+  notificationSeen({ input }: { input: any }) {
+    return HttpClient.post<any>(API_ENDPOINTS.NOTIFICATION_SEEN, input);
   },
 
   // toggle: (input: { id: string; language?: string }) =>

@@ -52,7 +52,7 @@ const CreateOrUpdateRoleForm = ({ initialValues }: IProps) => {
 
   const { mutate: createRole, isLoading: creating } = useCreateRoleMutation();
   const { mutate: updateRole, isLoading: updating } = useUpdateRoleMutation();
-  const { apis } = useApisQuery({});
+  const { apis } = useApisQuery({ limit: 20 });
   const { data: roleAuthorizedData } = useRoleAuthorizedQuery({
     id: initialValues?.id,
   });

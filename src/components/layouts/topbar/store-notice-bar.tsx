@@ -1,13 +1,12 @@
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { useStoreNoticeRead, useStoreNoticesQuery } from '@/data/store-notice';
 import { NotificationIcon } from '@/components/icons/sidebar/notification';
 import { Fragment, useEffect, useState } from 'react';
 import cn from 'classnames';
 import { Menu, Transition } from '@headlessui/react';
 import Link from '@/components/ui/link';
 import { LIMIT } from '@/utils/constants';
-import { SortOrder } from '@/types';
+import { NotifyLogs, SortOrder } from '@/types';
 import {
   adminOnly,
   getAuthCredentials,
@@ -18,9 +17,12 @@ import { Routes } from '@/config/routes';
 import { PusherConfig } from '@/utils/pusher-config';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
-import { useNotifyLogAllReadMutation } from '@/data/notify-logs';
+import {
+  useNotifyLogAllReadMutation,
+  useNotifyLogReadMutation,
+  useNotifyLogsQuery,
+} from '@/data/notify-logs';
 import { Config } from '@/config';
-import { useNotificationsQuery } from '@/data/notification';
 
 type IProps = { user: any };
 
@@ -31,10 +33,11 @@ const StoreNoticeBar = ({ user }: IProps) => {
   const { permissions } = getAuthCredentials();
   const permission = hasAccess(adminOnly, permissions);
   const router = useRouter();
-  const { readStoreNotice } = useStoreNoticeRead();
+  // const { readStoreNotice } = useStoreNoticeRead();
+  const { mutate: seenNotifyLog } = useNotifyLogReadMutation();
   const [noticeOpen, setNoticeOpen] = useState(false);
   const { locale } = useRouter();
-  const { notifications, error: errorNotice } = useNotificationsQuery({
+  const { notifyLogs, error: errorNotice } = useNotifyLogsQuery({
     language: locale,
     limit: 5,
     orderBy: 'updated_at',
@@ -52,7 +55,7 @@ const StoreNoticeBar = ({ user }: IProps) => {
     });
   };
 
-  const activeStatus = notifications.filter((item) => {
+  const activeStatus = notifyLogs.filter((item) => {
     return item.is_read === false;
   });
 
@@ -72,7 +75,7 @@ const StoreNoticeBar = ({ user }: IProps) => {
           toast.success(data?.message, {
             toastId: 'storeSuccess',
           });
-        }
+        },
       );
 
       return () => {
@@ -89,7 +92,7 @@ const StoreNoticeBar = ({ user }: IProps) => {
         <Menu.Button
           className={cn(
             'flex h-9 w-9 items-center justify-center gap-2 rounded-full border border-gray-200 bg-gray-50 text-gray-600 before:absolute before:top-0 before:right-0 before:h-2 before:w-2 before:rounded-full  focus:outline-none data-[headlessui-state=open]:bg-white data-[headlessui-state=open]:text-accent ',
-            activeStatus.length ? 'before:bg-[#F5A623]' : null
+            activeStatus.length ? 'before:bg-[#F5A623]' : null,
           )}
         >
           <NotificationIcon
@@ -124,15 +127,16 @@ const StoreNoticeBar = ({ user }: IProps) => {
                 </div>
 
                 <div>
-                  {notifications.length ? (
-                    notifications?.map((item: any) => {
+                  {notifyLogs.length ? (
+                    notifyLogs?.map((item: NotifyLogs) => {
                       const activeUser = permissions?.includes('super_admin')
                         ? Routes?.storeNotice?.details(item?.id)
-                        : '/shops/' + Routes?.storeNotice?.details(item?.id);
+                        : // : '/shops/' + Routes?.storeNotice?.details(item?.id);
+                          Routes?.courseNotice?.details(item?.notify_tracker);
 
                       const onClickHandel = () => {
                         router.push(activeUser);
-                        readStoreNotice({ id: item?.id });
+                        seenNotifyLog({ input: item });
                       };
                       return (
                         <div
@@ -145,17 +149,17 @@ const StoreNoticeBar = ({ user }: IProps) => {
                               "relative flex gap-2 rounded-md py-3.5 px-6 text-sm font-semibold capitalize transition duration-200 before:absolute before:top-5 before:h-2 before:w-2 before:rounded-full before:bg-accent before:opacity-0 before:content-[''] before:start-2 hover:text-accent group-hover:bg-gray-100/70",
                               item?.is_read == false
                                 ? 'before:opacity-100'
-                                : null
+                                : null,
                             )}
                           >
                             <div className="overflow-hidden">
                               <h3
                                 className={cn(
                                   'truncate text-sm font-medium',
-                                  item?.is_read ? 'text-[#666]' : ''
+                                  item?.is_read ? 'text-[#666]' : '',
                                 )}
                               >
-                                {item?.notice}
+                                {item?.notify_text}
                               </h3>
                               <span className="mt-2 block text-xs font-medium text-[#666666]">
                                 {dayjs(item?.created_at).format('MMM DD, YYYY')}{' '}
@@ -173,7 +177,7 @@ const StoreNoticeBar = ({ user }: IProps) => {
                   )}
                 </div>
 
-                {notifications.length ? (
+                {notifyLogs.length ? (
                   <Link
                     href={
                       permission

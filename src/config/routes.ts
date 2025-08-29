@@ -146,6 +146,9 @@ export const Routes = {
   storeNotice: {
     ...routesFactory('/store-notices'),
   },
+  courseNotice: {
+    ...routesFactory('/course-notices'),
+  },
   storeNoticeRead: {
     ...routesFactory('/store-notices/read'),
   },

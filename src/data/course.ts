@@ -6,6 +6,7 @@ import { Routes } from '@/config/routes';
 import { API_ENDPOINTS } from './client/api-endpoints';
 import {
   CorusePaginator,
+  CoruseTopicPaginator,
   Course,
   CourseQueryOptions,
   GetParams,
@@ -172,6 +173,45 @@ export const useStudentEnrolledCoursesQuery = (
 
   return {
     courses: data?.data ?? [],
+    paginatorInfo: mapPaginatorData(data),
+    error,
+    loading: isLoading,
+  };
+};
+
+export const useCreateOrUpdateCourseTopicsMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+
+  return useMutation(courseClient.createOrUpdateCourseTopics, {
+    onSuccess: () => {
+      // Router.push(Routes.course.list, undefined, {
+      //   locale: Config.defaultLanguage,
+      // });
+      toast.success(t('common:successfully-created'));
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      queryClient.invalidateQueries(API_ENDPOINTS.COURSES);
+    },
+    onError: (error: any) => {
+      toast.error('Something went wrong!');
+    },
+  });
+};
+
+export const useCourseTopicsQuery = (courseId: string) => {
+  const { data, error, isLoading } = useQuery<CoruseTopicPaginator, Error>(
+    [API_ENDPOINTS.COURSES, courseId],
+    ({ queryKey, pageParam }) =>
+      courseClient.courseTopticPaginated({course_id: courseId}),
+    {
+      keepPreviousData: true,
+    },
+  );
+
+  return {
+    courseTopics: data?.data ?? [],
     paginatorInfo: mapPaginatorData(data),
     error,
     loading: isLoading,

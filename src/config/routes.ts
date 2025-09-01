@@ -39,6 +39,9 @@ export const Routes = {
   },
   course: {
     ...routesFactory('/courses'),
+    topics: (courseId: string) => {
+      return `/courses/${courseId}/topics`
+    }
   },
   guardian: {
     ...routesFactory('/guardians'),

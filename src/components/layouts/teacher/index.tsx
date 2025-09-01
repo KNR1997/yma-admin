@@ -15,6 +15,7 @@ import {
   checkIsMaintenanceModeStart,
 } from '@/utils/constants';
 import SideBarMenu from './menu';
+import NavbarNew from '../navigation/top-navbar-new';
 
 const TeacherLayout: React.FC<{ children?: React.ReactNode }> = ({
   children,
@@ -36,7 +37,7 @@ const TeacherLayout: React.FC<{ children?: React.ReactNode }> = ({
       className="flex flex-col min-h-screen transition-colors duration-150 bg-gray-100"
       dir={dir}
     >
-      <Navbar />
+      <NavbarNew />
       <MobileNavigation>
         <OwnerInformation />
         {!permission ? <SideBarMenu /> : null}

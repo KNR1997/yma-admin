@@ -7,6 +7,7 @@ import Loader from '@/components/ui/loader/loader';
 import { useCourseQuery } from '@/data/course';
 import CreateOrUpdateCourseForm from '@/components/course/course-form';
 import { adminOnly } from '@/utils/auth-utils';
+import CoursePageHeader from '@/components/course/course-page-header';
 
 export default function UpdateCoursePage() {
   const { query } = useRouter();
@@ -20,9 +21,10 @@ export default function UpdateCoursePage() {
 
   return (
     <>
-      <div className="flex border-b border-dashed border-border-base pb-5 md:pb-7">
+      {/* <div className="flex border-b border-dashed border-border-base pb-5 md:pb-7">
         <h1 className="text-lg font-semibold text-heading">Edit Course</h1>
-      </div>
+      </div> */}
+      <CoursePageHeader pageTitle="Edit Course" courseId={query.id as string} />
       <CreateOrUpdateCourseForm initialValues={course} />
     </>
   );

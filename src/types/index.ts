@@ -1195,6 +1195,21 @@ export interface CreateCourseInput {
   fee: number | null
 }
 
+
+export interface CourseTopic {
+  id: number | null;
+  name: string;
+  description: string;
+}
+
+export interface CreateCourseTopicInput {
+  course_id: string;
+  course_topics: {
+    upsert: CourseTopic[];
+    delete: number[];
+  };
+}
+
 export interface CreateGuardianInput {
   first_name: string;
   last_name: string;
@@ -2378,6 +2393,8 @@ export interface RolePaginator extends PaginatorInfo<Role> {}
 export interface ApiPaginator extends PaginatorInfo<Api> {}
 
 export interface CorusePaginator extends PaginatorInfo<Course> {}
+
+export interface CoruseTopicPaginator extends PaginatorInfo<CourseTopic> {}
 
 export interface GuardianPaginator extends PaginatorInfo<Guardian> {}
 

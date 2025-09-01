@@ -380,6 +380,7 @@
   "button-label-description-ai": "Generate Description With AI",
   "text-delivery-schedule": "Delivery Schedule",
   "delivery-schedule-help-text": "Add your delivery schedule time with proper description from here",
+  "course-topics-help-text": "Add your course topics time with proper description from here",
   "input-delivery-time-title": "Title/Time",
   "input-delivery-time-description": "Description",
   "button-label-add-delivery-time": "Add Delivery Time",

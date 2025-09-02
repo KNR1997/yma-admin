@@ -321,7 +321,7 @@ const ActionButtons = ({
           )}
         </>
       )}
-      {detailsUrl && (
+      {/* {detailsUrl && (
         <Link
           href={detailsUrl}
           className="text-base transition duration-200 hover:text-heading"
@@ -330,7 +330,7 @@ const ActionButtons = ({
         >
           <Eye className="w-5 h-5" />
         </Link>
-      )}
+      )} */}
 
       {deleteModalView &&
         (role !== STAFF ||

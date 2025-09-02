@@ -202,9 +202,9 @@ export const useCreateOrUpdateCourseTopicsMutation = () => {
 
 export const useCourseTopicsQuery = (courseId: string) => {
   const { data, error, isLoading } = useQuery<CoruseTopicPaginator, Error>(
-    [API_ENDPOINTS.COURSES, courseId],
+    [`${API_ENDPOINTS.COURSES}/${courseId}/topics`],
     ({ queryKey, pageParam }) =>
-      courseClient.courseTopticPaginated({course_id: courseId}),
+      courseClient.courseTopticPaginated({courseId: courseId}),
     {
       keepPreviousData: true,
     },

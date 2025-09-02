@@ -57,6 +57,9 @@ export const Routes = {
   },
   enrollment: {
     ...routesFactory('/enrollments'),
+    payments: (enrollmentId: string) => {
+      return `/enrollments/${enrollmentId}/payments`
+    }
   },
   user: {
     ...routesFactory('/users'),

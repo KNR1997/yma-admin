@@ -2,6 +2,7 @@ import {
   CreateEnrollmentInput,
   Enrollment,
   EnrollmentPaginator,
+  EnrollmentPaymentPaginator,
   EnrollmentQueryOptions,
   QueryOptions,
 } from '@/types';
@@ -20,5 +21,16 @@ export const enrollmentClient = {
       ...params,
       search: HttpClient.formatSearchParams({}),
     });
+  },
+  enrollmentPaymentsPaginated: ({ enrollmentId }: { enrollmentId: string }) => {
+    return HttpClient.get<EnrollmentPaymentPaginator>(
+      `${API_ENDPOINTS.ENROLLMENTS}/${enrollmentId}/payments`,
+      {
+        searchJoin: 'and',
+        // self,
+        // ...params,
+        // search: HttpClient.formatSearchParams({ name }),
+      },
+    );
   },
 };

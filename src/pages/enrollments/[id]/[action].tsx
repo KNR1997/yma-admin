@@ -7,6 +7,7 @@ import Loader from '@/components/ui/loader/loader';
 import CreateOrUpdateEnrollmentForm from '@/components/enrollment/enrollment-form';
 import { useEnrollmentQuery } from '@/data/enrollment';
 import { adminOnly } from '@/utils/auth-utils';
+import EnrollmentPageHeader from '@/components/enrollment/enrollment-page-header';
 
 export default function UpdateHallPage() {
   const { query } = useRouter();
@@ -20,9 +21,13 @@ export default function UpdateHallPage() {
 
   return (
     <>
-      <div className="flex border-b border-dashed border-border-base pb-5 md:pb-7">
+      {/* <div className="flex border-b border-dashed border-border-base pb-5 md:pb-7">
         <h1 className="text-lg font-semibold text-heading">Edit Enrollment</h1>
-      </div>
+      </div> */}
+      <EnrollmentPageHeader
+        pageTitle="Enrollment Details"
+        enrollmentId={query.id as string}
+      />
       <CreateOrUpdateEnrollmentForm initialValues={enrollment} />
     </>
   );

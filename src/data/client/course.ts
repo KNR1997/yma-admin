@@ -29,31 +29,54 @@ export const courseClient = {
   disable: ({ id }: { id: string }) => {
     return HttpClient.post(`${API_ENDPOINTS.COURSES}/${id}/disable`, {});
   },
-  availableCoursesForStudent: ({ name, student_id, ...params }: Partial<CourseQueryOptions>) => {
-    return HttpClient.get<CorusePaginator>(`${API_ENDPOINTS.COURSES}/${student_id}/available-courses`, {
-      searchJoin: 'and',
-      // self,
-      ...params,
-      search: HttpClient.formatSearchParams({ name }),
-    });
+  availableCoursesForStudent: ({
+    name,
+    student_id,
+    ...params
+  }: Partial<CourseQueryOptions>) => {
+    return HttpClient.get<CorusePaginator>(
+      `${API_ENDPOINTS.COURSES}/${student_id}/available-courses`,
+      {
+        searchJoin: 'and',
+        // self,
+        ...params,
+        search: HttpClient.formatSearchParams({ name }),
+      },
+    );
   },
-  studentEnrolledCourses: ({ name, student_id, ...params }: Partial<CourseQueryOptions>) => {
-    return HttpClient.get<CorusePaginator>(`${API_ENDPOINTS.COURSES}/${student_id}/enrolled-courses`, {
-      searchJoin: 'and',
-      // self,
-      ...params,
-      search: HttpClient.formatSearchParams({ name }),
-    });
+  studentEnrolledCourses: ({
+    name,
+    student_id,
+    ...params
+  }: Partial<CourseQueryOptions>) => {
+    return HttpClient.get<CorusePaginator>(
+      `${API_ENDPOINTS.COURSES}/${student_id}/enrolled-courses`,
+      {
+        searchJoin: 'and',
+        // self,
+        ...params,
+        search: HttpClient.formatSearchParams({ name }),
+      },
+    );
   },
-  createOrUpdateCourseTopics: ({ course_id, ...input }: Partial<CreateCourseTopicInput>) => {
-    return HttpClient.post(`${API_ENDPOINTS.COURSES}/${course_id}/topics`, input)
+  createOrUpdateCourseTopics: ({
+    course_id,
+    ...input
+  }: Partial<CreateCourseTopicInput>) => {
+    return HttpClient.post(
+      `${API_ENDPOINTS.COURSES}/${course_id}/topics`,
+      input,
+    );
   },
-  courseTopticPaginated: ({ course_id }: {course_id: string}) => {
-    return HttpClient.get<CoruseTopicPaginator>(`${API_ENDPOINTS.COURSES}/${course_id}/topics`, {
-      searchJoin: 'and',
-      // self,
-      // ...params,
-      // search: HttpClient.formatSearchParams({ name }),
-    });
+  courseTopticPaginated: ({ courseId }: { courseId: string }) => {
+    return HttpClient.get<CoruseTopicPaginator>(
+      `${API_ENDPOINTS.COURSES}/${courseId}/topics`,
+      {
+        searchJoin: 'and',
+        // self,
+        // ...params,
+        // search: HttpClient.formatSearchParams({ name }),
+      },
+    );
   },
 };

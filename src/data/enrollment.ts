@@ -10,6 +10,7 @@ import {
   EnrollmentQueryOptions,
   EnrollmentPaginator,
   Enrollment,
+  EnrollmentPaymentPaginator,
 } from '@/types';
 import { mapPaginatorData } from '@/utils/data-mappers';
 import { Config } from '@/config';
@@ -99,4 +100,22 @@ export const useDeleteEnrollmentMutation = () => {
       queryClient.invalidateQueries(API_ENDPOINTS.ENROLLMENTS);
     },
   });
+};
+
+export const useEnrollmentPaymentsQuery = (enrollmentId: string) => {
+  const { data, error, isLoading } = useQuery<EnrollmentPaymentPaginator, Error>(
+    [`${API_ENDPOINTS.ENROLLMENTS}/${enrollmentId}/payments`],
+    ({ queryKey, pageParam }) =>
+      enrollmentClient.enrollmentPaymentsPaginated({enrollmentId: enrollmentId}),
+    {
+      keepPreviousData: true,
+    },
+  );
+
+  return {
+    enrollmentPayments: data?.data ?? [],
+    paginatorInfo: mapPaginatorData(data),
+    error,
+    loading: isLoading,
+  };
 };

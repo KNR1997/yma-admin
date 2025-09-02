@@ -395,6 +395,10 @@ export interface Enrollment {
   status: EnrollmentStatusType;
 }
 
+export interface EnrollmentPayment {
+  id: string;
+}
+
 export interface Student {
   id: number;
   student_number: string;
@@ -2403,6 +2407,8 @@ export interface HallPaginator extends PaginatorInfo<Hall> {}
 export interface EventPaginator extends PaginatorInfo<Event> {}
 
 export interface EnrollmentPaginator extends PaginatorInfo<Enrollment> {}
+
+export interface EnrollmentPaymentPaginator extends PaginatorInfo<EnrollmentPayment> {}
 
 export interface TaxPaginator extends PaginatorInfo<Tax> {}
 

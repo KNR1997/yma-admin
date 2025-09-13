@@ -5,11 +5,11 @@ import Card from '@/components/common/card';
 import Description from '@/components/ui/description';
 import { useTranslation } from 'next-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ErrorResponse, Hall } from '@/types';
+import { Hall } from '@/types';
 import StickyFooterPanel from '@/components/ui/sticky-footer-panel';
 import { hallValidationSchema } from './hall-validation-schema';
 import { useCreateHallMutation, useUpdateHallMutation } from '@/data/hall';
-import { getErrorMessage } from '@/utils/form-error';
+import { toast } from 'react-toastify';
 
 type FormValues = {
   name: string;
@@ -60,15 +60,17 @@ const CreateOrUpdateHallForm = ({ initialValues }: IProps) => {
         });
       }
     } catch (error: any) {
-      const err = error.response?.data as ErrorResponse;
-      if (err.validation) {
-        const serverErrors = getErrorMessage(error?.response?.data);
-        Object.keys(serverErrors?.validation).forEach((field: any) => {
-          setError(field, {
-            type: 'manual',
-            message: serverErrors?.validation[field][0],
-          });
+      const errData = error?.response?.data;
+
+      if (errData?.field) {
+        // Attach to field error in form
+        setError(errData.field as keyof FormValues, {
+          type: 'manual',
+          message: errData.error,
         });
+      } else {
+        // Show global error toast
+        toast.error(errData?.error ?? 'Something went wrong!');
       }
     }
   };

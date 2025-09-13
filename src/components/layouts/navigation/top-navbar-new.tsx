@@ -82,11 +82,11 @@ const NavbarNew = () => {
             <SearchBar />
           </div>
 
-          <div className="flex shrink-0 grow-0 basis-auto items-center">
+          {/* <div className="flex shrink-0 grow-0 basis-auto items-center">
             <div className="flex items-center gap-3 px-0.5 py-3 sm:relative sm:border-gray-200/80 sm:py-3.5 sm:px-6 sm:border-s lg:py-5">
               <StoreNoticeBar user={data} />
             </div>
-          </div>
+          </div> */}
 
           <AuthorizedMenu />
         </div>

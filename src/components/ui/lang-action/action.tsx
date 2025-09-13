@@ -20,6 +20,7 @@ export type LanguageSwitcherProps = {
   shopSlug?: string;
   couponApproveButton?: boolean;
   isCouponApprove?: boolean;
+  enableDetailMode?: boolean;
 };
 
 export default function LanguageSwitcher({
@@ -34,6 +35,7 @@ export default function LanguageSwitcher({
   shopSlug,
   couponApproveButton,
   isCouponApprove,
+  enableDetailMode,
 }: LanguageSwitcherProps) {
   const { enableMultiLang } = Config;
   const {
@@ -67,6 +69,7 @@ export default function LanguageSwitcher({
           deleteModalView={deleteModalView}
           couponApproveButton={couponApproveButton}
           isCouponApprove={isCouponApprove}
+          enableDetailMode={enableDetailMode}
           detailsUrl={routes.details(slug)}
         />
       )}

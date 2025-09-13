@@ -30,9 +30,9 @@ export const useCreateStudentMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.STUDENTS);
     },
-    onError: () => {
-      toast.error('Something went wrong!');
-    }
+    // onError: () => {
+    //   toast.error('Something went wrong!');
+    // }
   });
 };
 
@@ -61,26 +61,26 @@ export const useUpdateStudentMutation = () => {
   return useMutation(studentClient.update, {
     onSuccess: async (data: any) => {
       const generateRedirectUrl = Routes.student.list;
-      await router.push(`${generateRedirectUrl}/${data?.data?.id}/edit`);
+      await router.push(`${generateRedirectUrl}/${data?.id}/edit`);
       toast.success(t('common:successfully-updated'));
     },
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.STUDENTS);
     },
-    onError: () => {
-      toast.error('Something went wrong!');
-    }
+    // onError: () => {
+    //   toast.error('Something went wrong!');
+    // }
   });
 };
 
 export const useStudentQuery = ({ slug, language }: GetParams) => {
-  const { data, error, isLoading } = useQuery<Response<Student>, Error>(
+  const { data, error, isLoading } = useQuery<Student, Error>(
     [API_ENDPOINTS.STUDENTS, { slug, language }],
     () => studentClient.get({ slug, language })
   );
 
   return {
-    student: data?.data,
+    student: data,
     error,
     isLoading,
   };

@@ -16,7 +16,7 @@ export function crudFactory<Type, QueryParams extends LanguageParam, InputType>(
       return HttpClient.get<PaginatorInfo<Type>>(endpoint, params);
     },
     get({ slug, language }: GetParams) {
-      return HttpClient.get<Response<Type>>(`${endpoint}/${slug}`, {
+      return HttpClient.get<Type>(`${endpoint}/${slug}`, {
         language,
       });
     },

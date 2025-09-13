@@ -14,6 +14,7 @@ import {
 import { mapPaginatorData } from '@/utils/data-mappers';
 import { Config } from '@/config';
 import { subjectClient } from './client/subject';
+import { getErrorMessage } from '@/utils/form-error';
 
 export const useCreateSubjectMutation = () => {
   const queryClient = useQueryClient();
@@ -30,9 +31,9 @@ export const useCreateSubjectMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.SUBJECTS);
     },
-    onError: () => {
-      toast.error("Something went wrong!")
-    }
+    // onError: (error: any) => {
+    //   toast.error(error?.response?.data.error ?? "Something went wrong!");
+    // }
   });
 };
 
@@ -48,7 +49,7 @@ export const useDeleteSubjectMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.SUBJECTS);
     },
-    onError: () => {
+    onError: (error: any) => {
       toast.error("Something went wrong!")
     }
   });
@@ -66,20 +67,20 @@ export const useUpdateSubjectMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.SUBJECTS);
     },
-    onError: () => {
-      toast.error("Something went wrong!")
-    }
+    // onError: () => {
+    //   toast.error("Something went wrong!")
+    // }
   });
 };
 
 export const useSubjectQuery = ({ slug, language }: GetParams) => {
-  const { data, error, isLoading } = useQuery<Response<Subject>, Error>(
+  const { data, error, isLoading } = useQuery<Subject, Error>(
     [API_ENDPOINTS.SUBJECTS, { slug, language }],
     () => subjectClient.get({ slug, language })
   );
 
   return {
-    subject: data?.data,
+    subject: data,
     error,
     isLoading,
   };

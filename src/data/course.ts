@@ -35,13 +35,13 @@ export const useCoursesQuery = (options: Partial<CourseQueryOptions>) => {
 };
 
 export const useCourseQuery = ({ slug }: GetParams) => {
-  const { data, error, isLoading } = useQuery<Response<Course>, Error>(
+  const { data, error, isLoading } = useQuery<Course, Error>(
     [API_ENDPOINTS.COURSES, { slug }],
     () => courseClient.get({ slug }),
   );
 
   return {
-    course: data?.data,
+    course: data,
     error,
     isLoading,
   };
@@ -62,9 +62,9 @@ export const useCreateCourseMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.COURSES);
     },
-    onError: () => {
-      toast.error('Something went wrong!');
-    },
+    // onError: () => {
+    //   toast.error('Something went wrong!');
+    // },
   });
 };
 
@@ -75,16 +75,16 @@ export const useUpdateCourseMutation = () => {
   return useMutation(courseClient.update, {
     onSuccess: async (data: any) => {
       const generateRedirectUrl = Routes.course.list;
-      await router.push(`${generateRedirectUrl}/${data?.data?.id}/edit`);
+      await router.push(`${generateRedirectUrl}/${data?.id}/edit`);
       toast.success(t('common:successfully-updated'));
     },
     // Always refetch after error or success:
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.COURSES);
     },
-    onError: () => {
-      toast.error('Something went wrong!');
-    },
+    // onError: () => {
+    //   toast.error('Something went wrong!');
+    // },
   });
 };
 

@@ -57,7 +57,7 @@ const TopRatedProducts = dynamic(
 export default function Dashboard() {
   const { t } = useTranslation();
   const { locale } = useRouter();
-  const { data, isLoading: loading } = useAnalyticsQuery();
+  // const { data, isLoading: loading } = useAnalyticsQuery();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTimeFrame, setActiveTimeFrame] = useState(1);
@@ -204,14 +204,14 @@ export default function Dashboard() {
             subtitleTransKey="sticker-card-subtitle-rev"
             icon={<BasketIcon className="h-8 w-8" />}
             color="#1EAE98"
-            price={data?.active_courses}
+            // price={data?.active_courses}
           />
           <StickerCard
             titleTransKey="sticker-card-title-student"
             subtitleTransKey="sticker-card-subtitle-order"
             icon={<CustomersIcon className="h-8 w-8" />}
             color="#865DFF"
-            price={data?.active_students}
+            // price={data?.active_students}
           />
           {/* <StickerCard
             titleTransKey="sticker-card-title-vendor"

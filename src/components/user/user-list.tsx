@@ -121,13 +121,13 @@ const UserList = ({
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
-      align: 'center',
-      width: 300,
+      align: alignLeft,
+      width: 150,
       render: (role: any) => {
         return (
           <div className="flex flex-wrap gap-1.5 whitespace-nowrap">
             <span className="rounded bg-gray-200/50 px-2.5 py-1">
-              {role?.name}
+              {role}
             </span>
           </div>
         );
@@ -144,6 +144,7 @@ const UserList = ({
       dataIndex: 'is_superuser',
       key: 'is_superuser',
       align: 'center',
+      width: 150,
       render: (is_superuser: boolean) => (
         <Badge
           textKey={is_superuser ? 'common:text-yes' : 'common:text-no'}
@@ -155,13 +156,13 @@ const UserList = ({
         />
       ),
     },
-    {
-      title: 'Last-login',
-      dataIndex: 'last_login',
-      key: 'last_login',
-      align: 'center',
-      render: (last_login: any) => formatDate(last_login),
-    },
+    // {
+    //   title: 'Last-login',
+    //   dataIndex: 'last_login',
+    //   key: 'last_login',
+    //   align: 'center',
+    //   render: (last_login: any) => formatDate(last_login),
+    // },
     // {
     //   title: (
     //     <TitleWithSort

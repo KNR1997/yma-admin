@@ -347,13 +347,13 @@ export const useAddWalletPointsMutation = () => {
 // };
 
 export const useUserQuery = ({ id }: { id: string }) => {
-  const { data, error, isLoading } = useQuery<Response<User>, Error>(
+  const { data, error, isLoading } = useQuery<User, Error>(
     [API_ENDPOINTS.USERS, id],
     () => userClient.fetchUser({ id }),
   );
 
   return {
-    user: data?.data,
+    user: data,
     error,
     loading: isLoading,
   };

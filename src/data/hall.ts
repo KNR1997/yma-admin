@@ -34,13 +34,13 @@ export const useHallsQuery = (options: Partial<HallQueryOptions>) => {
 };
 
 export const useHallQuery = ({ slug, language }: GetParams) => {
-  const { data, error, isLoading } = useQuery<Response<Hall>, Error>(
+  const { data, error, isLoading } = useQuery<Hall, Error>(
     [API_ENDPOINTS.HALLS, { slug, language }],
     () => hallClient.get({ slug, language }),
   );
 
   return {
-    hall: data?.data,
+    hall: data,
     error,
     isLoading,
   };

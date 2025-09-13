@@ -5,7 +5,7 @@ import Card from '@/components/common/card';
 import Description from '@/components/ui/description';
 import { useTranslation } from 'next-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ErrorResponse, GradeType, Student } from '@/types';
+import { GradeType, RoleType, Student, User } from '@/types';
 import StickyFooterPanel from '@/components/ui/sticky-footer-panel';
 import { studentValidationSchema } from './student-validation-schema';
 import PasswordInput from '@/components/ui/password-input';
@@ -16,13 +16,12 @@ import {
 import SelectInput from '@/components/ui/select-input';
 import ValidationError from '@/components/ui/form-validation-error';
 import { gradeOptions } from '@/constants';
-import { getErrorMessage } from '@/utils/form-error';
+import { toast } from 'react-toastify';
 
 type FormValues = {
-  grade: { label: string; value: GradeType };
-  username: string;
-  email: string;
+  user: User;
   student_number: string;
+  grade: { label: string; value: GradeType };
   password: string;
 };
 
@@ -52,12 +51,11 @@ const CreateOrUpdateStudentForm = ({ initialValues }: IProps) => {
   } = useForm<FormValues>({
     defaultValues: initialValues
       ? {
+          user: initialValues?.user,
+          student_number: initialValues.student_number,
           grade: gradeOptions.find(
             (gradeOption) => gradeOption.value == initialValues.grade,
           ),
-          student_number: initialValues.student_number,
-          username: initialValues?.user?.username,
-          email: initialValues?.user?.email,
         }
       : defaultValues,
     //@ts-ignore
@@ -68,10 +66,15 @@ const CreateOrUpdateStudentForm = ({ initialValues }: IProps) => {
     const input = {
       grade: values.grade.value,
       student_number: values.student_number,
-      user_create: {
-        username: values.username,
-        email: values.email,
+      user: {
+        full_name: values.user.full_name,
+        first_name: values.user.first_name,
+        last_name: values.user.last_name,
+        name_with_initials: values.user.name_with_initials,
+        username: values.user.username,
+        email: values.user.email,
         password: values.password,
+        role: RoleType.STUDENT,
       },
     };
     try {
@@ -81,15 +84,17 @@ const CreateOrUpdateStudentForm = ({ initialValues }: IProps) => {
         await updateStudent({ ...input, id: initialValues.id });
       }
     } catch (error: any) {
-      const err = error.response?.data as ErrorResponse;
-      if (err?.validation) {
-        const serverErrors = getErrorMessage(error?.response?.data);
-        Object.keys(serverErrors?.validation).forEach((field: any) => {
-          setError(field, {
-            type: 'manual',
-            message: serverErrors?.validation[field][0],
-          });
+      const errData = error?.response?.data;
+
+      if (errData?.field) {
+        // Attach to field error in form
+        setError(errData.field as keyof FormValues, {
+          type: 'manual',
+          message: errData.error,
         });
+      } else {
+        // Show global error toast
+        toast.error(errData?.error ?? 'Something went wrong!');
       }
     }
   };
@@ -103,6 +108,60 @@ const CreateOrUpdateStudentForm = ({ initialValues }: IProps) => {
           className="w-full px-0 pb-5 sm:w-4/12 sm:py-8 sm:pe-4 md:w-1/3 md:pe-5"
         />
         <Card className="w-full sm:w-8/12 md:w-2/3">
+          <Input
+            label="Full Name"
+            {...register('user.full_name')}
+            type="text"
+            variant="outline"
+            className="mb-4"
+            error={t(errors?.user?.full_name?.message!)}
+            required
+          />
+          <Input
+            label="First Name"
+            {...register('user.first_name')}
+            type="text"
+            variant="outline"
+            className="mb-4"
+            error={t(errors?.user?.full_name?.message!)}
+            required
+          />
+          <Input
+            label="Last Name"
+            {...register('user.last_name')}
+            type="text"
+            variant="outline"
+            className="mb-4"
+            error={t(errors?.user?.last_name?.message!)}
+            required
+          />
+          <Input
+            label="Name with Initials"
+            {...register('user.name_with_initials')}
+            type="text"
+            variant="outline"
+            className="mb-4"
+            error={t(errors?.user?.name_with_initials?.message!)}
+            required
+          />
+          <Input
+            label="Username"
+            {...register('user.username')}
+            type="text"
+            variant="outline"
+            className="mb-4"
+            error={t(errors?.user?.username?.message!)}
+            required
+          />
+          <Input
+            label="Email"
+            {...register('user.email')}
+            type="text"
+            variant="outline"
+            className="mb-4"
+            error={t(errors?.user?.email?.message!)}
+            required
+          />
           <div className="mb-5">
             <SelectInput
               label="Grade"
@@ -116,24 +175,6 @@ const CreateOrUpdateStudentForm = ({ initialValues }: IProps) => {
             />
             <ValidationError message={t(errors.grade?.message)} />
           </div>
-          <Input
-            label="Username"
-            {...register('username')}
-            type="text"
-            variant="outline"
-            className="mb-4"
-            error={t(errors.username?.message!)}
-            required
-          />
-          <Input
-            label="Email"
-            {...register('email')}
-            type="text"
-            variant="outline"
-            className="mb-4"
-            error={t(errors.email?.message!)}
-            required
-          />
           <Input
             label="Student No."
             {...register('student_number')}

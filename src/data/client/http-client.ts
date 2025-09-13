@@ -24,7 +24,8 @@ Axios.interceptors.request.use((config) => {
     // @ts-ignore
     config.headers = {
       ...config.headers,
-      token: token,
+      // token: token,
+      Authorization: `Bearer ${token}`,
     };
   }
   // let token = '';
@@ -45,7 +46,7 @@ Axios.interceptors.response.use(
   (error) => {
     if (
       (error.response && error.response.status === 401) ||
-      (error.response && error.response.status === 403) ||
+      // (error.response && error.response.status === 403) ||
       (error.response &&
         error.response.data.message === 'PICKBAZAR_ERROR.NOT_AUTHORIZED')
     ) {

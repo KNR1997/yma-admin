@@ -43,6 +43,7 @@ type Props = {
   flashSaleVendorRequestApproveButton?: boolean;
   isFlashSaleVendorRequestApproved?: boolean;
   resetUserPassword?: boolean;
+  enableDetailMode?: boolean;
 };
 
 const ActionButtons = ({
@@ -72,6 +73,7 @@ const ActionButtons = ({
   flashSaleVendorRequestApproveButton = false,
   isFlashSaleVendorRequestApproved,
   resetUserPassword = false,
+  enableDetailMode = false,
 }: Props) => {
   const { t } = useTranslation();
   const { openModal } = useModalAction();
@@ -321,7 +323,7 @@ const ActionButtons = ({
           )}
         </>
       )}
-      {/* {detailsUrl && (
+      {(enableDetailMode && detailsUrl) && (
         <Link
           href={detailsUrl}
           className="text-base transition duration-200 hover:text-heading"
@@ -330,7 +332,7 @@ const ActionButtons = ({
         >
           <Eye className="w-5 h-5" />
         </Link>
-      )} */}
+      )}
 
       {deleteModalView &&
         (role !== STAFF ||

@@ -19,18 +19,18 @@ import {
 import { toast } from 'react-toastify';
 
 const loginFormSchema = yup.object().shape({
-  // email: yup
-  //   .string()
-  //   .email('form:error-email-format')
-  //   .required('form:error-email-required'),
-  username: yup.string().required('form:error-password-required'),
+  email: yup
+    .string()
+    .email('form:error-email-format')
+    .required('form:error-email-required'),
+  // username: yup.string().required('form:error-password-required'),
   password: yup.string().required('form:error-password-required'),
 });
 
 const defaultValues = {
-  // email: 'admin@demo.com',
-  username: 'admin',
-  password: '123456',
+  email: 'admin@demo.com',
+  // username: 'admin',
+  password: 'demodemo',
 };
 
 const LoginForm = () => {
@@ -38,20 +38,22 @@ const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { mutate: login, isLoading, error } = useLogin();
 
-  function onSubmit({ username, password }: LoginInput) {
+  function onSubmit({ email, password }: LoginInput) {
     login(
       {
-        username,
+        email,
         password,
       },
       {
         onSuccess: (data) => {
-          if (data?.data.access_token) {
-            if (hasAccess(allowedRoles, data?.data.permissions)) {
+          console.log('data: ', data)
+          if (data?.token) {
+            console.log('token has')
+            if (hasAccess(allowedRoles, data?.permissions)) {
               setAuthCredentials(
-                data?.data.access_token,
-                data?.data.permissions,
-                data?.data.role,
+                data?.token,
+                data?.permissions,
+                data?.role,
               );
               Router.push(Routes.dashboard);
               return;
@@ -80,13 +82,13 @@ const LoginForm = () => {
         {({ register, formState: { errors } }) => (
           <>
             <Input
-              // label={t('form:input-label-email')}
-              label="Username"
-              {...register('username')}
-              type="username"
+              label={t('form:input-label-email')}
+              // label="Username"
+              {...register('email')}
+              type="email"
               variant="outline"
               className="mb-4"
-              error={t(errors?.username?.message!)}
+              error={t(errors?.email?.message!)}
             />
             <PasswordInput
               label={t('form:input-label-password')}

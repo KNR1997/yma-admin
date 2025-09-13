@@ -16,6 +16,14 @@ export enum CouponType {
   FREE_SHIPPING = 'free_shipping',
 }
 
+export enum RoleType {
+  SUPER_ADMIN = 'super_admin',
+  ADMIN = 'admin',
+  TEACHER = 'teacher',
+  STUDENT = 'student',
+  CASHIER = 'cashier',
+}
+
 export enum GradeType {
   GRADE_5 = 'GRADE_5',
   GRADE_6 = 'GRADE_6',
@@ -249,20 +257,24 @@ export interface Response<T> {
 }
 
 export interface LoginInput {
-  // email: string;
-  username: string;
+  email: string;
+  // username: string;
   password: string;
 }
 
 export interface AuthResponse {
   code: string;
   msg: string;
-  data: {
-    access_token: string;
-    username: string;
-    permissions: string[];
-    role: string;
-  };
+  // data: {
+  //   access_token: string;
+  //   username: string;
+  //   permissions: string[];
+  //   role: string;
+  // };
+  token: string;
+  username: string;
+  permissions: string[];
+  role: string;
   // permissions: string[];
   // role: string;
 }
@@ -615,7 +627,7 @@ export interface User {
   addresses: Address[];
   orders?: OrderPaginator;
   email_verified: boolean;
-  role: Role;
+  role: RoleType;
 }
 
 export interface Payment {
@@ -652,7 +664,7 @@ export interface CreateUserinput {
   nic?: string;
   is_active?: boolean;
   is_superuser?: boolean;
-  role_id: number;
+  role: RoleType;
 }
 
 export interface UpdateUser {
@@ -666,7 +678,7 @@ export interface UpdateUser {
   password: string;
   is_active: boolean;
   is_superuser: boolean;
-  role_id: number;
+  role: RoleType;
 }
 
 export interface UpdateMe {
@@ -1175,7 +1187,7 @@ export interface CreateSubjectInput {
 export interface CreateStudentInput {
   grade: GradeType;
   student_number: string;
-  user_create: CreateUserinput;
+  user: CreateUserinput;
 }
 
 export interface CreateRoleInput {
@@ -1430,9 +1442,8 @@ export interface CreateMessageSeenInput {
 }
 
 export interface ErrorResponse {
-  message: string;
-  validation?: Record<string, string[]> | null;
-  code: number;
+  error: string;
+  field: string;
 }
 
 export interface Tax {

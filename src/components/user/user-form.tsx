@@ -7,15 +7,15 @@ import Description from '@/components/ui/description';
 import { useCreateUserMutation, useUpdateUserMutation } from '@/data/user';
 import { useTranslation } from 'next-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Role, User } from '@/types';
+import { Role, RoleType, User } from '@/types';
 import StickyFooterPanel from '@/components/ui/sticky-footer-panel';
 import { useRouter } from 'next/router';
 import { userValidationSchema } from './user-validation-schema';
 import ValidationError from '@/components/ui/form-validation-error';
 import Label from '@/components/ui/label';
 import SelectInput from '@/components/ui/select-input';
-import { useRolesQuery } from '@/data/role';
 import { toast } from 'react-toastify';
+import { roleOptions } from '@/constants';
 
 type FormValues = {
   full_name: string;
@@ -27,7 +27,7 @@ type FormValues = {
   email: string;
   password: string;
   // roles: Role[];
-  role: Role;
+  role: {label: string, value: RoleType};
 };
 
 const defaultValues = {
@@ -48,17 +48,15 @@ function SelectRoles({
 }) {
   const { locale } = useRouter();
   const { t } = useTranslation();
-  const { roles, loading } = useRolesQuery({ language: locale });
   return (
     <div className="mb-5">
       <Label>Roles</Label>
       <SelectInput
         name="role"
         control={control}
-        getOptionLabel={(option: any) => option.name}
-        getOptionValue={(option: any) => option.id}
-        options={roles!}
-        isLoading={loading}
+        getOptionLabel={(option: any) => option.label}
+        getOptionValue={(option: any) => option.value}
+        options={roleOptions!}
         // isMulti
       />
       <ValidationError message={t(errors.roles?.message)} />
@@ -82,7 +80,7 @@ const CreateOrUpdateUserForm = ({ initialValues }: IProps) => {
     defaultValues: initialValues
       ? {
           ...initialValues,
-          // roles:
+          role: roleOptions.find((roleOption) => roleOption.value == initialValues.role)
         }
       : defaultValues,
     //@ts-ignore
@@ -101,7 +99,7 @@ const CreateOrUpdateUserForm = ({ initialValues }: IProps) => {
       password: values.password,
       is_active: true,
       is_superuser: false,
-      role_id: values.role.id,
+      role: values.role.value,
     };
     const handleFieldErrors = (error: any) => {
       try {

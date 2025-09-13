@@ -238,6 +238,19 @@ export const siteSettings = {
           },
         ],
       },
+
+      feature: {
+        href: '',
+        label: 'text-feature-management',
+        icon: 'SettingsIcon',
+        childMenu: [
+          {
+            href: Routes.message.list,
+            label: 'sidebar-nav-item-message',
+            icon: 'ChatIcon',
+          },
+        ],
+      }
     },
 
     shop: {

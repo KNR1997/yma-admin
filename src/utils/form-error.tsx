@@ -1,33 +1,51 @@
 import Router from 'next/router';
 import Cookies from 'js-cookie';
 
-export function getErrorMessage(error: any) {
-  let processedError = {
-    message: '',
-    validation: [],
-  };
+// export function getErrorMessage(error: any) {
+//   let processedError = {
+//     message: '',
+//     validation: [],
+//   };
 
-  if (error.graphQLErrors) {
-    for (const graphQLError of error.graphQLErrors) {
-      if (
-        graphQLError.extensions &&
-        graphQLError.extensions.category === 'validation'
-      ) {
-        processedError['message'] = graphQLError.message;
-        processedError['validation'] = graphQLError.extensions.validation;
-        return processedError;
-      } else if (
-        graphQLError.extensions &&
-        graphQLError.extensions.category === 'authorization'
-      ) {
-        Cookies.remove('auth_token');
-        Cookies.remove('auth_permissions');
-        Router.push('/');
-      }
+//   if (error.graphQLErrors) {
+//     for (const graphQLError of error.graphQLErrors) {
+//       if (
+//         graphQLError.extensions &&
+//         graphQLError.extensions.category === 'validation'
+//       ) {
+//         processedError['message'] = graphQLError.message;
+//         processedError['validation'] = graphQLError.extensions.validation;
+//         return processedError;
+//       } else if (
+//         graphQLError.extensions &&
+//         graphQLError.extensions.category === 'authorization'
+//       ) {
+//         Cookies.remove('auth_token');
+//         Cookies.remove('auth_permissions');
+//         Router.push('/');
+//       }
+//     }
+//   }
+//   processedError['message'] = error.msg;
+//   processedError['validation'] = error.validation;
+
+//   return processedError;
+// }
+
+export function getErrorMessage(error: any, field?: string): string {
+  if (!error) return "Something went wrong";
+
+  // Axios / fetch error with response.data.detail
+  const detail = error?.response?.data?.detail;
+  if (Array.isArray(detail)) {
+    // Find error for the specific field, fallback to first error
+    if (field) {
+      const fieldError = detail.find((d: any) => d.loc?.[0] === field);
+      if (fieldError) return fieldError.msg;
     }
+    return detail[0]?.msg || "Something went wrong";
   }
-  processedError['message'] = error.msg;
-  processedError['validation'] = error.validation;
 
-  return processedError;
+  // Fallback message
+  return error?.message || "Something went wrong";
 }

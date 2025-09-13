@@ -131,6 +131,7 @@ const StudentCourseList = ({
           record={record}
           enableEditMode={false}
           routes={Routes?.studentCourses}
+          enableDetailMode={true}
         />
       ),
     },

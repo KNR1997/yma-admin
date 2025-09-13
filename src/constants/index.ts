@@ -1,4 +1,12 @@
-import { CourseType, EventType, GenderType, GradeType } from '@/types';
+import { CourseType, EventType, GenderType, GradeType, RoleType } from '@/types';
+
+export const roleOptions = [
+  { value: RoleType.SUPER_ADMIN, label: 'Super Admin' },
+  { value: RoleType.ADMIN, label: 'Admin' },
+  { value: RoleType.TEACHER, label: 'Teacher' },
+  { value: RoleType.STUDENT, label: 'Student' },
+  { value: RoleType.CASHIER, label: 'Cashier' },
+]
 
 export const gradeOptions = [
   { value: GradeType.GRADE_5, label: 'Grade 5' },

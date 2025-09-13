@@ -86,11 +86,11 @@ const StudentList = ({
       ) => (
         <div className="flex items-center">
           <Avatar
-            name={record?.user?.username!}
+            name={record?.user?.first_name!}
             src={profile?.avatar?.thumbnail}
           />
           <div className="flex flex-col whitespace-nowrap font-medium ms-2">
-            {record?.user?.username}
+            {record?.user?.first_name} {record?.user?.last_name}
             <span className="text-[13px] font-normal text-gray-500/80">
               {record?.user?.email}
             </span>

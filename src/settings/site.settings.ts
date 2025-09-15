@@ -215,6 +215,11 @@ export const siteSettings = {
         icon: 'SettingsIcon',
         childMenu: [
           {
+            href: Routes.payment.list,
+            label: 'Payments',
+            icon: 'ShopIcon',
+          },
+          {
             href: '',
             label: 'Student',
             icon: 'UsersIcon',

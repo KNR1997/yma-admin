@@ -10,6 +10,8 @@ import EnrollmentPageHeader from '@/components/enrollment/enrollment-page-header
 import EnrollmentPaymentList from '@/components/enrollment/enrollment-payment-list';
 import { useState } from 'react';
 import { SortOrder } from '@/types';
+import LinkButton from '@/components/ui/link-button';
+import { Routes } from '@/config/routes';
 
 export default function EnrollmentPayments() {
   const { query } = useRouter();
@@ -34,6 +36,14 @@ export default function EnrollmentPayments() {
         pageTitle="Enrollment Details"
         enrollmentId={query.id as string}
       />
+      <div className='flex justify-end mb-5'>
+        <LinkButton
+          href={`${Routes.coursePayment.create}`}
+          // className="h-12 w-full md:w-auto md:ms-6"
+        >
+          <span>+ Add Payment</span>
+        </LinkButton>
+      </div>
       <EnrollmentPaymentList
         enrollmentPayments={enrollmentPayments}
         paginatorInfo={paginatorInfo}
@@ -51,6 +61,6 @@ EnrollmentPayments.Layout = AdminLayout;
 
 export const getServerSideProps = async ({ locale }: any) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['form', 'common'])),
+    ...(await serverSideTranslations(locale, ['form', 'table', 'common'])),
   },
 });

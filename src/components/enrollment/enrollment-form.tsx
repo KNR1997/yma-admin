@@ -4,21 +4,20 @@ import Card from '@/components/common/card';
 import Description from '@/components/ui/description';
 import { useTranslation } from 'next-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Course, Enrollment, ErrorResponse, Student } from '@/types';
+import { Course, Enrollment, Student } from '@/types';
 import StickyFooterPanel from '@/components/ui/sticky-footer-panel';
 import { enrollmentValidationSchema } from './enrollment-validation-schema';
 import SelectInput from '@/components/ui/select-input';
-import { getErrorMessage } from '@/utils/form-error';
 import {
   useCreateEnrollmentMutation,
   useUpdateEnrollmentMutation,
 } from '@/data/enrollment';
 import ValidationError from '@/components/ui/form-validation-error';
-import { useRouter } from 'next/router';
 import {
-  useCoursesAvailableForStudentQuery,
-} from '@/data/course';
-import { useStudentsQuery } from '@/data/student';
+  useStudentAvailableCoursesQuery,
+  useStudentsQuery,
+} from '@/data/student';
+import { toast } from 'react-toastify';
 
 type FormValues = {
   student: Student;
@@ -40,7 +39,7 @@ function SelectCourse({
   selectedStudent?: Student;
 }) {
   const { t } = useTranslation();
-  const { courses, loading } = useCoursesAvailableForStudentQuery({
+  const { courses, loading } = useStudentAvailableCoursesQuery({
     student_id: selectedStudent?.id,
   });
 
@@ -114,7 +113,8 @@ const CreateOrUpdateEnrollmentForm = ({ initialValues }: IProps) => {
   } = useForm<FormValues>({
     defaultValues: initialValues
       ? {
-          ...initialValues,
+          student: initialValues?.student,
+          course: initialValues?.course,
         }
       : defaultValues,
     //@ts-ignore
@@ -139,17 +139,17 @@ const CreateOrUpdateEnrollmentForm = ({ initialValues }: IProps) => {
         });
       }
     } catch (error: any) {
-      const err = error.response?.data as ErrorResponse;
-      console.log('err: ', err)
-      if (err?.validation) {
-        const serverErrors = getErrorMessage(error?.response?.data);
-        console.log('serverErrors: ', serverErrors)
-        Object.keys(serverErrors?.validation).forEach((field: any) => {
-          setError(field, {
-            type: 'manual',
-            message: serverErrors?.validation[field][0],
-          });
+      const errData = error?.response?.data;
+
+      if (errData?.field) {
+        // Attach to field error in form
+        setError(errData.field as keyof FormValues, {
+          type: 'manual',
+          message: errData.error,
         });
+      } else {
+        // Show global error toast
+        toast.error(errData?.error ?? 'Something went wrong!');
       }
     }
   };

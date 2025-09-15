@@ -61,9 +61,9 @@ export const useCreateHallMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.HALLS);
     },
-    onError: () => {
-      toast.error("Something went wrong!")
-    }
+    // onError: () => {
+    //   toast.error("Something went wrong!")
+    // }
   });
 };
 
@@ -80,9 +80,9 @@ export const useUpdateHallMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.HALLS);
     },
-    onError: () => {
-      toast.error("Something went wrong!")
-    }
+    // onError: () => {
+    //   toast.error("Something went wrong!")
+    // }
   });
 };
 

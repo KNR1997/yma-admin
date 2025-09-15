@@ -16,7 +16,7 @@ import {
 import { useStudentsQuery } from '@/data/student';
 import SelectInput from '../ui/select-input';
 import ValidationError from '@/components/ui/form-validation-error';
-import { useStudentEnrolledCoursesQuery } from '@/data/course';
+import { useStudentEnrolledCoursesQuery } from '@/data/student';
 import { monthOptions } from '@/constants';
 
 type FormValues = {

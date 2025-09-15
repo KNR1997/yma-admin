@@ -55,6 +55,9 @@ export const Routes = {
   event: {
     ...routesFactory('/events'),
   },
+  payment: {
+    ...routesFactory('/payments'),
+  },
   enrollment: {
     ...routesFactory('/enrollments'),
     payments: (enrollmentId: string) => {

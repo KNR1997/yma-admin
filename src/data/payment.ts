@@ -13,11 +13,30 @@ import {
   PaymentPaginator,
   AdmissionPaymentQueryOptions,
   EnrollmentPaymentPaginator,
+  PaymentQueryOptions,
 } from '@/types';
 import { mapPaginatorData } from '@/utils/data-mappers';
 import { Config } from '@/config';
 import { hallClient } from './client/hall';
 import { paymentClient } from './client/payment';
+
+export const usePaymentsQuery = (options: Partial<PaymentQueryOptions>) => {
+  const { data, error, isLoading } = useQuery<PaymentPaginator, Error>(
+    [API_ENDPOINTS.PAYMENTS, options],
+    ({ queryKey, pageParam }) =>
+      paymentClient.paginated(Object.assign({}, queryKey[1], pageParam)),
+    {
+      keepPreviousData: true,
+    },
+  );
+
+  return {
+    payments: data?.data ?? [],
+    paginatorInfo: mapPaginatorData(data),
+    error,
+    loading: isLoading,
+  };
+};
 
 export const useHallQuery = ({ slug, language }: GetParams) => {
   const { data, error, isLoading } = useQuery<Response<Hall>, Error>(
@@ -30,6 +49,27 @@ export const useHallQuery = ({ slug, language }: GetParams) => {
     error,
     isLoading,
   };
+};
+
+export const useCreatePaymentMutation = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+
+  return useMutation(paymentClient.create, {
+    onSuccess: () => {
+      Router.push(Routes.payment.list, undefined, {
+        locale: Config.defaultLanguage,
+      });
+      toast.success(t('common:successfully-created'));
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      queryClient.invalidateQueries(API_ENDPOINTS.PAYMENTS);
+    },
+    onError: () => {
+      toast.error("Something went wrong!")
+    }
+  });
 };
 
 export const useCreateAdmissionPaymentMutation = () => {
@@ -45,11 +85,11 @@ export const useCreateAdmissionPaymentMutation = () => {
     },
     // Always refetch after error or success:
     onSettled: () => {
-      queryClient.invalidateQueries(`${API_ENDPOINTS.PAYMENTS}/students`);
+      queryClient.invalidateQueries(API_ENDPOINTS.PAYMENTS);
     },
-    onError: () => {
-      toast.error("Something went wrong!")
-    }
+    // onError: () => {
+    //   toast.error("Something went wrong!")
+    // }
   });
 };
 
@@ -66,7 +106,7 @@ export const useCreateCoursePaymentMutation = () => {
     },
     // Always refetch after error or success:
     onSettled: () => {
-      queryClient.invalidateQueries(`${API_ENDPOINTS.PAYMENTS}/students`);
+      queryClient.invalidateQueries(API_ENDPOINTS.PAYMENTS);
     },
     onError: () => {
       toast.error("Something went wrong!")

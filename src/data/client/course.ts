@@ -44,21 +44,6 @@ export const courseClient = {
       },
     );
   },
-  studentEnrolledCourses: ({
-    name,
-    student_id,
-    ...params
-  }: Partial<CourseQueryOptions>) => {
-    return HttpClient.get<CorusePaginator>(
-      `${API_ENDPOINTS.COURSES}/${student_id}/enrolled-courses`,
-      {
-        searchJoin: 'and',
-        // self,
-        ...params,
-        search: HttpClient.formatSearchParams({ name }),
-      },
-    );
-  },
   createOrUpdateCourseTopics: ({
     course_id,
     ...input

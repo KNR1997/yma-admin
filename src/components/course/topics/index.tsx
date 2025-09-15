@@ -25,7 +25,7 @@ export default function CourseTopicsForm({ courseId, courseTopics }: IProps) {
   const { t } = useTranslation();
 
   const { mutateAsync: createUpdateCourseTopics, isLoading: loading } =
-    useCreateOrUpdateCourseTopicsMutation();
+    useCreateOrUpdateCourseTopicsMutation(courseId);
 
   const {
     register,

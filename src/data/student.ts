@@ -5,6 +5,8 @@ import { useTranslation } from 'next-i18next';
 import { Routes } from '@/config/routes';
 import { API_ENDPOINTS } from './client/api-endpoints';
 import {
+  CorusePaginator,
+  CourseQueryOptions,
   GetParams,
   Response,
   Student,
@@ -50,7 +52,7 @@ export const useDeleteStudentMutation = () => {
     },
     onError: () => {
       toast.error('Something went wrong!');
-    }
+    },
   });
 };
 
@@ -76,7 +78,7 @@ export const useUpdateStudentMutation = () => {
 export const useStudentQuery = ({ slug, language }: GetParams) => {
   const { data, error, isLoading } = useQuery<Student, Error>(
     [API_ENDPOINTS.STUDENTS, { slug, language }],
-    () => studentClient.get({ slug, language })
+    () => studentClient.get({ slug, language }),
   );
 
   return {
@@ -93,11 +95,56 @@ export const useStudentsQuery = (options: Partial<StudentQueryOptions>) => {
       studentClient.paginated(Object.assign({}, queryKey[1], pageParam)),
     {
       keepPreviousData: true,
-    }
+    },
   );
 
   return {
     students: data?.data ?? [],
+    paginatorInfo: mapPaginatorData(data),
+    error,
+    loading: isLoading,
+  };
+};
+
+export const useStudentAvailableCoursesQuery = (
+  options: Partial<CourseQueryOptions>,
+) => {
+  const { data, error, isLoading } = useQuery<CorusePaginator, Error>(
+    [API_ENDPOINTS.COURSES, options],
+    ({ queryKey, pageParam }) =>
+      studentClient.availableCourses(Object.assign({}, queryKey[1], pageParam)),
+    {
+      keepPreviousData: true,
+      enabled: !!options.student_id, // prevent fetch when studentId is undefined
+    },
+  );
+
+  return {
+    courses: data?.data ?? [],
+    paginatorInfo: mapPaginatorData(data),
+    error,
+    loading: isLoading,
+  };
+};
+
+
+export const useStudentEnrolledCoursesQuery = (
+  options: Partial<CourseQueryOptions>,
+) => {
+  const { data, error, isLoading } = useQuery<CorusePaginator, Error>(
+    [API_ENDPOINTS.COURSES, options],
+    ({ queryKey, pageParam }) =>
+      studentClient.studentEnrolledCourses(
+        Object.assign({}, queryKey[1], pageParam),
+      ),
+    {
+      keepPreviousData: true,
+      enabled: !!options.student_id, // prevent fetch when studentId is undefined
+    },
+  );
+
+  return {
+    courses: data?.data ?? [],
     paginatorInfo: mapPaginatorData(data),
     error,
     loading: isLoading,

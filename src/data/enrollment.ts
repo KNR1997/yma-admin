@@ -35,13 +35,13 @@ export const useEnrollmentsQuery = (options: Partial<EnrollmentQueryOptions>) =>
 };
 
 export const useEnrollmentQuery = ({ slug, language }: GetParams) => {
-  const { data, error, isLoading } = useQuery<Response<Enrollment>, Error>(
+  const { data, error, isLoading } = useQuery<Enrollment, Error>(
     [API_ENDPOINTS.ENROLLMENTS, { slug, language }],
     () => enrollmentClient.get({ slug, language }),
   );
 
   return {
-    enrollment: data?.data,
+    enrollment: data,
     error,
     isLoading,
   };

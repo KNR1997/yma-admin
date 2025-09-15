@@ -11,11 +11,10 @@ import PageHeading from '@/components/common/page-heading';
 import Search from '@/components/common/search';
 import LinkButton from '@/components/ui/link-button';
 import { Routes } from '@/config/routes';
-import { useHallsQuery } from '@/data/hall';
+import { usePaymentsQuery } from '@/data/payment';
 import HallList from '@/components/hall/hall-list';
 import { useAdmissionPaymentsQuery } from '@/data/payment';
 import AdmissionPaymentList from '@/components/admission/admission-payment-list';
-import { usePaymentsQuery } from '@/data/payment';
 
 export default function AdmissionPayments() {
   const { t } = useTranslation();
@@ -33,10 +32,10 @@ export default function AdmissionPayments() {
   // });
 
   const { payments, paginatorInfo, loading, error } = usePaymentsQuery({
-    payment_type: PaymentType.ADMISSION_FEE,
     limit: 20,
     page,
     name: searchTerm,
+    payment_type: PaymentType.ADMISSION_FEE,
     orderBy,
     sortedBy,
   });
@@ -67,7 +66,7 @@ export default function AdmissionPayments() {
           />
 
           <LinkButton
-            href={`${Routes.admission.create}`}
+            href={`${Routes.payments.create}`}
             className="h-12 w-full md:w-auto md:ms-6"
           >
             <span>+ Add Payment</span>

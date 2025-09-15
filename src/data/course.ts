@@ -156,50 +156,6 @@ export const useCoursesAvailableForStudentQuery = (
   };
 };
 
-export const useStudentEnrolledCoursesQuery = (
-  options: Partial<CourseQueryOptions>,
-) => {
-  const { data, error, isLoading } = useQuery<CorusePaginator, Error>(
-    [API_ENDPOINTS.COURSES, options],
-    ({ queryKey, pageParam }) =>
-      courseClient.studentEnrolledCourses(
-        Object.assign({}, queryKey[1], pageParam),
-      ),
-    {
-      keepPreviousData: true,
-      enabled: !!options.student_id, // prevent fetch when studentId is undefined
-    },
-  );
-
-  return {
-    courses: data?.data ?? [],
-    paginatorInfo: mapPaginatorData(data),
-    error,
-    loading: isLoading,
-  };
-};
-
-export const useCreateOrUpdateCourseTopicsMutation = () => {
-  const queryClient = useQueryClient();
-  const { t } = useTranslation();
-
-  return useMutation(courseClient.createOrUpdateCourseTopics, {
-    onSuccess: () => {
-      // Router.push(Routes.course.list, undefined, {
-      //   locale: Config.defaultLanguage,
-      // });
-      toast.success(t('common:successfully-created'));
-    },
-    // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries(API_ENDPOINTS.COURSES);
-    },
-    onError: (error: any) => {
-      toast.error('Something went wrong!');
-    },
-  });
-};
-
 export const useCourseTopicsQuery = (courseId: string) => {
   const { data, error, isLoading } = useQuery<CoruseTopicPaginator, Error>(
     [`${API_ENDPOINTS.COURSES}/${courseId}/topics`],
@@ -216,4 +172,25 @@ export const useCourseTopicsQuery = (courseId: string) => {
     error,
     loading: isLoading,
   };
+};
+
+export const useCreateOrUpdateCourseTopicsMutation = (courseId: string) => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+
+  return useMutation(courseClient.createOrUpdateCourseTopics, {
+    onSuccess: () => {
+      // Router.push(Routes.course.list, undefined, {
+      //   locale: Config.defaultLanguage,
+      // });
+      toast.success(t('common:successfully-created'));
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      queryClient.invalidateQueries(`${API_ENDPOINTS.COURSES}/${courseId}/topics`);
+    },
+    onError: (error: any) => {
+      toast.error('Something went wrong!');
+    },
+  });
 };

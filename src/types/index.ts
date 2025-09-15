@@ -34,6 +34,13 @@ export enum GradeType {
   GRADE_11 = 'GRADE_11',
 }
 
+export enum PaymentType{
+  ADMISSION_FEE = "ADMISSION_FEE"
+  COURSE_FEE = "COURSE_FEE"
+  EXAM_FEE = "EXAM_FEE"
+  SALARY = "SALARY"
+}
+
 export enum CourseType {
   ONLINE = 'ONLINE',
   PHYSICAL = 'PHYSICAL',
@@ -633,6 +640,7 @@ export interface User {
 export interface Payment {
   payer_name: string;
   amount: number;
+  payment_type: PaymentType;
 }
 
 export interface EnrollmentPayment {
@@ -2124,6 +2132,11 @@ export interface GuardianQueryOptions extends QueryOptions {
 
 export interface HallQueryOptions extends QueryOptions {
   name: string;
+}
+
+export interface PaymentQueryOptions extends QueryOptions {
+  name: string;
+  payment_type: PaymentType;
 }
 
 export interface EventQueryOptions extends QueryOptions {

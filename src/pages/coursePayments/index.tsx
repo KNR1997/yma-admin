@@ -2,7 +2,7 @@ import Card from '@/components/common/card';
 import Layout from '@/components/layouts/admin';
 import ErrorMessage from '@/components/ui/error-message';
 import Loader from '@/components/ui/loader/loader';
-import { SortOrder } from '@/types';
+import { SortOrder, PaymentType } from '@/types';
 import { adminOnly } from '@/utils/auth-utils';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -13,6 +13,7 @@ import LinkButton from '@/components/ui/link-button';
 import { Routes } from '@/config/routes';
 import { useCoursePaymentsQuery } from '@/data/payment';
 import CoursePaymentList from '@/components/coursePayment/course-payment-list';
+import { usePaymentsQuery } from '@/data/payment';
 
 export default function CoursePayments() {
   const { t } = useTranslation();
@@ -21,10 +22,19 @@ export default function CoursePayments() {
   const [orderBy, setOrder] = useState('created_at');
   const [sortedBy, setColumn] = useState<SortOrder>(SortOrder.Desc);
 
-  const { enrollmentPayments, paginatorInfo, loading, error } = useCoursePaymentsQuery({
+  // const { enrollmentPayments, paginatorInfo, loading, error } = useCoursePaymentsQuery({
+  //   limit: 20,
+  //   page,
+  //   // name: searchTerm,
+  //   orderBy,
+  //   sortedBy,
+  // });
+
+  const { payments, paginatorInfo, loading, error } = usePaymentsQuery({
+    payment_type: PaymentType.COURSE_FEE,
     limit: 20,
     page,
-    // name: searchTerm,
+    name: searchTerm,
     orderBy,
     sortedBy,
   });
@@ -63,7 +73,7 @@ export default function CoursePayments() {
         </div>
       </Card>
       <CoursePaymentList
-        enrollmentPayments={enrollmentPayments}
+        enrollmentPayments={payments}
         paginatorInfo={paginatorInfo}
         onPagination={handlePagination}
         onOrder={setOrder}

@@ -34,13 +34,13 @@ export const useGuardiansQuery = (options: Partial<GuardianQueryOptions>) => {
 };
 
 export const useGuardianQuery = ({ slug, language }: GetParams) => {
-  const { data, error, isLoading } = useQuery<Response<Guardian>, Error>(
+  const { data, error, isLoading } = useQuery<Guardian, Error>(
     [API_ENDPOINTS.GUARDIANS, { slug, language }],
     () => guardianClient.get({ slug, language }),
   );
 
   return {
-    guardian: data?.data,
+    guardian: data,
     error,
     isLoading,
   };
@@ -61,9 +61,9 @@ export const useCreateGuardianMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.GUARDIANS);
     },
-    onError: () => {
-      toast.error("Something went wrong!")
-    }
+    // onError: () => {
+    //   toast.error("Something went wrong!")
+    // }
   });
 };
 
@@ -80,9 +80,9 @@ export const useUpdateGuardianMutation = () => {
     onSettled: () => {
       queryClient.invalidateQueries(API_ENDPOINTS.GUARDIANS);
     },
-    onError: () => {
-      toast.error("Something went wrong!")
-    }
+    // onError: () => {
+    //   toast.error("Something went wrong!")
+    // }
   });
 };
 
